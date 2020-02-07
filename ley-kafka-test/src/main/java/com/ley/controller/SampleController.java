@@ -29,7 +29,7 @@ public class SampleController {
     @Autowired
     private KafkaTemplate<String, Object> kafkaTemplate;
 
-    @Autowired
+    @Autowired(required = false)
     private MyBean2 myBean2;
 
     @GetMapping("/hello")

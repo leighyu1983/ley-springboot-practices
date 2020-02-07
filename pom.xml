@@ -13,6 +13,7 @@
         <module>ley-kafka-test</module>
         <module>ley-kafka-starter</module>
         <module>ley-kafka-app</module>
+        <module>ley-single</module>
     </modules>
 
 
