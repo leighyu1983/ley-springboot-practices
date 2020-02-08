@@ -1,4 +1,4 @@
-package com.ley.algorithm;
+package com.ley.leetcode.algorithm;
 
 import lombok.extern.slf4j.Slf4j;
 

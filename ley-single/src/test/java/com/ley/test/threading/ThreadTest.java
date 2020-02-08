@@ -15,15 +15,26 @@ import org.springframework.test.context.junit4.SpringRunner;
 @AutoConfigureMockMvc
 public class ThreadTest {
 
+    private PrintByTwoThreadsInTurn test = new PrintByTwoThreadsInTurn();
+
     @Test
     public void testPrintByTwoThreadsWaitNotify() throws Exception {
-        PrintByTwoThreadsInTurn test = new PrintByTwoThreadsInTurn();
         test.runWaitNotify();
     }
 
     @Test
     public void testPrintByTwoThreadsCAS() throws Exception {
-        PrintByTwoThreadsInTurn test = new PrintByTwoThreadsInTurn();
         test.runVolatile();
     }
+
+    @Test
+    public void testRunReentrantCondition() throws Exception {
+        test.runReentrantCondition();
+    }
+
+    @Test
+    public void testRunFutureTask() throws Exception {
+        test.runFutureTask();
+    }
+
 }
