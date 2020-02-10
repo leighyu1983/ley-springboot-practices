@@ -14,6 +14,7 @@
         <module>ley-kafka-starter</module>
         <module>ley-kafka-app</module>
         <module>ley-single</module>
+        <module>ley-aop-config</module>
     </modules>
 
 
