@@ -21,6 +21,9 @@ public class MyKafkaProperty {
     @Value("${spring.kafka.consumer.group-id}")
     private String groupId;
 
+    @Value("${spring.kafka.consumer.retry-group-id}")
+    private String retryGroupId;
+
     @Value("${spring.kafka.consumer.max-poll-records}")
     private Integer maxPollRecords;
 

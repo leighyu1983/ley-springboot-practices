@@ -1,7 +1,10 @@
 package com.ley.leetcode.algorithm;
 
+import com.ley.leetcode.support.ListNode;
+
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 
 /**
  * @author Leigh Yu
@@ -195,5 +198,130 @@ public class AlgoDoublePoints {
         return true;
     }
 
-    
+    /**
+     * 88. Merge Sorted Array (Easy)
+     *
+     * Date: 2020-2-11
+     *
+     * Input:
+     *  nums1 = [1,2,3,0,0,0], m = 3
+     *  nums2 = [2,5,6],       n = 3
+     *
+     * Output: [1,2,2,3,5,6]
+     *
+     * @return
+     */
+    public static void merge(int[] nums1, int m, int[] nums2, int n) {
+        // 从后向前写,所以三个索引初始都是最大值
+        int index1 = m - 1, index2 = n - 1;
+        int indexMerge = m + n -1;
+
+        while(index1 >=0 || index2 >= 0) {
+            // nums1 没有数据，num2有数据，直接把nums2的数据写入数组
+            if(index1 < 0) {
+                nums1[indexMerge--] = nums2[index2--];
+            } else if(index2 < 0) {
+                // 情况同上，反过来
+                nums1[indexMerge--] = nums1[index1--];
+            } else if (nums1[index1] > nums2[index2]) {
+                // 如果数组1的数据大，把大数据放进去，因为是升序。
+                nums1[indexMerge--] = nums1[index1--];
+            } else {
+                // 情况同上，反过来
+                nums1[indexMerge--] = nums2[index2--];
+            }
+        }
+    }
+
+    /**
+     * 141. Linked List Cycle (Easy)
+     *
+     * Date: 2020-2-11
+     *
+     * 使用双指针，一个指针每次移动一个节点，一个指针每次移动两个节点，如果存在环，那么这两个指针一定会相遇。
+     *
+     * @param head
+     * @return
+     */
+    public static boolean hasCycle(ListNode head) {
+        if (head == null) {
+            return false;
+        }
+
+        ListNode l1 = head, l2 = head.next;
+        while(l1 != null && l2 != null && l2.next != null) {
+            if(l1 == l2) {
+                return true;
+            }
+            l1 = l1.next;
+            l2 = l2.next.next;
+        }
+
+        return false;
+    }
+
+    /**
+     * 524. Longest Word in Dictionary through Deleting (Medium)
+     *
+     * Pay attention that sub string no need to consecutive.
+     * 找出能构成的最长字符串。如果有多个相同长度的结果，返回字典序的最小字符串。
+     *
+     * Date: 2020-2-12
+     *
+     * Input:
+     * s = "abpcplea", d = ["ale","apple","monkey","plea"]
+     *
+     * Output:
+     * "apple"
+     *
+     * @param s
+     * @param d
+     * @return
+     */
+    public static String findLongestWord(String s, List<String> d) {
+        String longestWord = "";
+
+        for (String target : d) {
+            if (!isSubstr(s, target)) {
+                continue;
+            }
+
+            // 相同取字典最小值，此时longestWord是最小值，不做处理
+            if (target.length() == longestWord.length() && longestWord.compareTo(target) < 0 ) {
+                continue;
+            }
+
+            // 如果target比缓存长，或者相等时字典顺序小，交换位置
+            if(target.length() >= longestWord.length()) {
+                longestWord = target;
+            }
+        }
+
+        return longestWord;
+    }
+
+    /**
+     * 不用是连续的字符串，只要subStr中的字符串都在待比较的字符串中出现过就可以了
+     * 1. 遍历主字符串，如果主字符串中的字符和subStr中的字符一样，subStr移动一
+     * 2. 当主遍历完了，或者 子遍历完了 就结束
+     * 3. 如果结束的时候 subStr中的字符串都在主串中出现过，就是subStr的长度和subStr指针移动的距离一样
+     *
+     * @param s
+     * @param target = subStr
+     * @return
+     */
+    private static boolean isSubstr(String s, String target) {
+        int i = 0, j = 0;
+        // 从头遍历到尾
+        while(i < s.length() && j < target.length()) {
+            if(s.charAt(i) == target.charAt(j)) {
+                // 找到匹配的子串统计就加一
+                j++;
+            }
+            // 循环遍历主串
+            i++;
+        }
+        //符合条件的次数 和 字串长度是否相等
+        return j == target.length();
+    }
 }

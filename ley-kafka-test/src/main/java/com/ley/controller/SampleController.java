@@ -1,13 +1,14 @@
 package com.ley.controller;
 
+import com.ley.mq.consumer.MyKafkaConsumerService;
 import com.ley.pojo.MyBean2;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.kafka.clients.producer.ProducerRecord;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 import org.springframework.core.type.classreading.CachingMetadataReaderFactory;
 import org.springframework.core.type.classreading.MetadataReader;
-import org.springframework.kafka.annotation.KafkaListenerAnnotationBeanPostProcessor;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.kafka.support.SendResult;
 import org.springframework.util.concurrent.ListenableFuture;
@@ -26,11 +27,18 @@ public class SampleController {
     // local
     private ConcurrentHashMap<String, String> cache = new ConcurrentHashMap<>(1000);
 
+
     @Autowired
     private KafkaTemplate<String, Object> kafkaTemplate;
 
+
+    @Autowired
+    private MyKafkaConsumerService myKafkaConsumerService;
+
+
     @Autowired(required = false)
     private MyBean2 myBean2;
+
 
     @GetMapping("/hello")
     public void hello() throws IOException {
@@ -40,11 +48,18 @@ public class SampleController {
         myBean2.test();
     }
 
+
+    @GetMapping("/get/{topic}/{partition}/{offset}")
+    public void get1(@PathVariable String topic, @PathVariable int partition, @PathVariable long offset) {
+        myKafkaConsumerService.getRecord(topic, partition, offset);
+    }
+
     @GetMapping("/send/{topic}/{message}")
     public String send(@PathVariable String topic, @PathVariable String message) {
         log.debug(" debug.........send to kafka topic {}, message {}", topic, message);
         log.info(" info.........send to kafka topic {}, message {}", topic, message);
-        ListenableFuture<SendResult<String, Object>> resultFuture = kafkaTemplate.send(topic, message);
+        ProducerRecord<String, Object> record = new ProducerRecord<String, Object>(topic, message);
+        ListenableFuture<SendResult<String, Object>> resultFuture = kafkaTemplate.send(record);
 
         resultFuture.addCallback(new ListenableFutureCallback<SendResult<String, Object>>() {
             @Override

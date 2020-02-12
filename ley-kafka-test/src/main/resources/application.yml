@@ -1,3 +1,6 @@
+server:
+  port: 8081
+
 spring:
   kafka:
     bootstrap-servers: k1:9092,k2:9092,k3:9092
@@ -13,6 +16,8 @@ spring:
     consumer:
       # 默认消费者组
       group-id: group-1
+      # 重试消费者组，相同group的不同consumer多次消费同一个topic
+      retry-group-id: __retry__
       # 最早未被消费的offset
       auto-offset-reset: earliest
       # 批量一次最大拉取数据量
