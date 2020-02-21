@@ -1,21 +1,44 @@
 package com.ley.mq.consumer;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.TypeReference;
+import com.alibaba.fastjson.serializer.SerializerFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ley.pojo.BeanNoGet;
+import example.avro.User;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
-import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
 import org.springframework.kafka.annotation.KafkaListener;
-import org.springframework.kafka.listener.AcknowledgingMessageListener;
-import org.springframework.kafka.listener.KafkaMessageListenerContainer;
 import org.springframework.stereotype.Component;
-
-import java.util.List;
 
 @Slf4j
 @Component
 public class MyKafkaListener {
 
     @KafkaListener(topics = "${topicName.topic1}")
-    public void listenerTwo(ConsumerRecord<?, ?> record) throws Exception {
+    public void listenerAvro(ConsumerRecord<String, Object> record) throws Exception {
+
+        User user = (User)record.value();
+
+        log.info("info....record: {}", record);
+        log.debug("info....record: {}", record);
+        //throw new Exception("waho exception yeah....");
+    }
+
+    //@KafkaListener(topics = "${topicName.topic1}")
+    public void listenerString(ConsumerRecord<String, Object> record) throws Exception {
+
+        BeanNoGet get = new BeanNoGet("tom", 1);
+
+        ObjectMapper mapper = new ObjectMapper();
+        String jsonValue = mapper.writeValueAsString(get);
+        BeanNoGet user = mapper.readValue(jsonValue, BeanNoGet.class);
+
+
+//        log.info(amt);
+//        ConsumerRecord<String, Object> pmq =
+//                JSON.parseObject(amt, ConsumerRecord.class);
+
         log.info("info....record: {}", record);
         log.debug("info....record: {}", record);
         //throw new Exception("waho exception yeah....");

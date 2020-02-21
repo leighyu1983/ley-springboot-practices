@@ -11,8 +11,9 @@ spring:
       batch-size: 16384
       # 32MB的批处理缓冲区
       buffer-memory: 33554432
-      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      #value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-serializer: com.ley.serializer.LeyKafkaAvroSerializer
     consumer:
       # 默认消费者组
       group-id: group-1
@@ -28,7 +29,8 @@ spring:
       # 应用需要处理消息的时间ms
       max-poll-interval-ms: 10000
       key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
-      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      #value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: com.ley.serializer.LeyKafkaAvroDeserializer
     listener:
       # consumer并发处理的线程数(启动几个线程委托给 KafkaMessageListenerContainer)
       concurrency: 2

@@ -1,0 +1,76 @@
+<!--Configuration后面的status,这个用于设置log4j2自身内部的信息输出,可以不设置,当设置成trace时,你会看到log4j2内部各种详细输出-->
+<!--日志级别以及优先级排序: OFF > FATAL > ERROR > WARN > INFO > DEBUG > TRACE > ALL -->
+<configuration status="OFF">
+    <Properties>
+        <!-- 格式化输出：
+            %date表示日期，
+            %thread表示线程名，
+            %-5level：级别从左显示5个字符宽度
+            %msg：日志消息，
+            %n是换行符-->
+        <!-- %logger{36} 表示 Logger 名字最长36个字符 -->
+        <property name="log_pattern"
+                  value="%date{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%t] - %msg%n" />
+        <!-- 定义日志存储的路径，不要配置相对路径 -->
+        <property name="file_path" value="D:/tmp" />
+        <property name="file_name" value="test-tomcat" />
+        <!-- 日志默认切割的最小单位 -->
+        <property name="every_file_size">20MB</property>
+        <!-- 日志默认输出级别 -->
+        <property name="log_level">DEBUG</property>
+        <!-- 日志默认同类型日志,多久生成一个新的日志文件,这个配置需要和filePattern结合使用;
+                如果设置为1,filePattern是%d{yyyy-MM-dd}到天的格式,则间隔一天生成一个文件
+                如果设置为12,filePattern是%d{yyyy-MM-dd-HH}到小时的格式,则间隔12小时生成一个文件 -->
+        <property name="timeInterval">1</property>
+        <!-- 日志默认同类型日志,同一文件夹下可以存放的数量,不设置此属性则默认为7个,filePattern最后要带%i才会生效 -->
+        <property name="rolling_max">100</property>
+    </Properties>
+
+    <!-- 定义输出器 -->
+    <appenders>
+        <console name="Console" target="SYSTEM_OUT">
+            <!--输出日志的格式-->
+            <PatternLayout pattern="${log_pattern}"/>
+            <!--控制台只输出level及其以上级别的信息（onMatch），其他的直接拒绝（onMismatch）-->
+            <ThresholdFilter level="info" onMatch="ACCEPT" onMismatch="DENY"/>
+        </console>
+
+        <!-- 这个会打印出所有的info及以下级别的信息，每次大小超过size，则这size大小的日志会自动存入按年份-月份建立的文件夹下面并进行压缩，作为存档-->
+        <RollingFile name="RollingFileInfo" fileName="${file_path}/${file_name}.log"
+                     filePattern="${file_path}/${file_name}-%d{yyyy-MM-dd}_%i.log.gz">
+            <!--输出日志的格式-->
+            <PatternLayout pattern="${log_pattern}"/>
+            <!--控制台只输出level及以上级别的信息（onMatch），其他的直接拒绝（onMismatch）-->
+            <ThresholdFilter level="info" onMatch="ACCEPT" onMismatch="DENY"/>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="${timeInterval}" />
+                <SizeBasedTriggeringPolicy size="${every_file_size}" />
+            </Policies>
+            <!-- DefaultRolloverStrategy属性如不设置，则默认为最多同一文件夹下7个文件开始覆盖-->
+            <DefaultRolloverStrategy max="${rolling_max}" />
+        </RollingFile>
+    </appenders>
+
+    <!--定义logger,只有定义了logger并引入的appender,appender才会生效-->
+    <loggers>
+        <root level="${log_level}">
+            <appender-ref ref="Console"/>
+            <appender-ref ref="RollingFileInfo"/>
+        </root>
+
+        <!-- 第三方日志系统 -->
+        <!-- 打印 -->
+        <!-- 设置org.mybatis.spring包下的日志只打印WARN及以上级别的日志 -->
+        <!-- additivity设为false，子Logger只会在自己的appender里输出，不会在父Logger的appender里输出。-->
+        <logger name="org.springframework" level="WARN" additivity="false">
+            <appender-ref ref="Console"/>
+        </logger>
+
+        <!-- 不打印 -->
+        <!--过滤掉spring和mybatis的一些无用的DEBUG信息，也可以在spring boot 的logging.level.org.springframework=FATAL设置-->
+        <!-- additivity设为false，子Logger只会在自己的appender里输出，不会在父Logger的appender里输出。-->
+        <logger name="org.springframework" level="INFO" additivity="false" />
+        <logger name="org.mybatis" level="INFO" additivity="false" />
+        <logger name="org.apache.http" level="warn"  additivity="false" />
+    </loggers>
+</configuration>

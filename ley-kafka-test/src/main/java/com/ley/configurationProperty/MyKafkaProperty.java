@@ -33,6 +33,12 @@ public class MyKafkaProperty {
     @Value("${spring.kafka.consumer.max-poll-interval-ms}")
     private String maxPollIntervalMs;
 
+    @Value("${spring.kafka.consumer.key-deserializer}")
+    private String consumerKeyDeserializer;
+
+    @Value("${spring.kafka.consumer.value-deserializer}")
+    private String consumerValueDeserializer;
+
     @Value("${spring.kafka.producer.retries}")
     private Integer retries;
 
@@ -41,6 +47,12 @@ public class MyKafkaProperty {
 
     @Value("${spring.kafka.producer.buffer-memory}")
     private Integer bufferMemory;
+
+    @Value("${spring.kafka.producer.key-serializer}")
+    private String producerrKeySerializer;
+
+    @Value("${spring.kafka.producer.value-serializer}")
+    private String producerValueSerializer;
 
     @Value("${spring.kafka.listener.concurrency}")
     private Integer concurrency;

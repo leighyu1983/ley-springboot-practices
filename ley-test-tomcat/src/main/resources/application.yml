@@ -1,0 +1,10 @@
+application:
+  name: test-tomcat
+server:
+  tomcat:
+    min-spare-threads: 1
+    max-threads: 800
+    max-connections: 10000
+    accept-count: 3
+
+

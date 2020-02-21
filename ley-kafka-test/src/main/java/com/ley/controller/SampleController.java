@@ -2,6 +2,7 @@ package com.ley.controller;
 
 import com.ley.mq.consumer.MyKafkaConsumerService;
 import com.ley.pojo.MyBean2;
+import example.avro.User;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.clients.producer.ProducerRecord;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,11 +55,39 @@ public class SampleController {
         myKafkaConsumerService.getRecord(topic, partition, offset);
     }
 
-    @GetMapping("/send/{topic}/{message}")
-    public String send(@PathVariable String topic, @PathVariable String message) {
+    @GetMapping("/send/str/{topic}/{message}")
+    public String sendString(@PathVariable String topic, @PathVariable String message) {
         log.debug(" debug.........send to kafka topic {}, message {}", topic, message);
         log.info(" info.........send to kafka topic {}, message {}", topic, message);
         ProducerRecord<String, Object> record = new ProducerRecord<String, Object>(topic, message);
+        ListenableFuture<SendResult<String, Object>> resultFuture = kafkaTemplate.send(record);
+
+        resultFuture.addCallback(new ListenableFutureCallback<SendResult<String, Object>>() {
+            @Override
+            public void onSuccess(SendResult<String, Object> result) {
+                log.debug("msg OK. " + result.toString());
+                log.info("msg OK. " + result.toString());
+            }
+
+            @Override
+            public void onFailure(Throwable ex) {
+                log.error("msg send failed.", ex);
+            }
+        });
+        return "ok";
+    }
+
+    @GetMapping("/send/avro/{topic}/{message}")
+    public String send(@PathVariable String topic, @PathVariable String message) {
+        log.debug(" debug.........send to kafka topic {}, message {}", topic, message);
+        log.info(" info.........send to kafka topic {}, message {}", topic, message);
+
+        User user = new User();
+        user.setName(message);
+        user.setFavoriteColor("Red");
+        user.setFavoriteNumber(1);
+
+        ProducerRecord<String, Object> record = new ProducerRecord<String, Object>(topic, user);
         ListenableFuture<SendResult<String, Object>> resultFuture = kafkaTemplate.send(record);
 
         resultFuture.addCallback(new ListenableFutureCallback<SendResult<String, Object>>() {
