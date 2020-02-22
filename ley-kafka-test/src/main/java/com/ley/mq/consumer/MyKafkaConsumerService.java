@@ -46,16 +46,20 @@ public class MyKafkaConsumerService {
     }
 
     public void getRecord(String topic, int partition, long offset) {
-        kafkaConsumer.subscribe(Collections.singletonList(topic));
+        try {
+            kafkaConsumer.subscribe(Collections.singletonList(topic));
 
-        kafkaConsumer.poll(0);
-        log.info("---------------3--------------");
-        kafkaConsumer.seek(new TopicPartition(topic, partition), offset);
-        log.info("---------------4--------------");
-        ConsumerRecords<String, Object> records = kafkaConsumer.poll(3000L); // Duration.ofMillis(0)
-        log.info("---------------5--------------");
-        if(records.iterator().hasNext()) {
-            ConsumerRecord<String, Object> record = records.iterator().next();
+            kafkaConsumer.poll(0);
+            log.info("---------------3--------------");
+            kafkaConsumer.seek(new TopicPartition(topic, partition), offset);
+            log.info("---------------4--------------");
+            ConsumerRecords<String, Object> records = kafkaConsumer.poll(3000L); // Duration.ofMillis(0)
+            log.info("---------------5--------------");
+            if (records.iterator().hasNext()) {
+                ConsumerRecord<String, Object> record = records.iterator().next();
+            }
+        } finally {
+            kafkaConsumer.unsubscribe();
         }
     }
 }
