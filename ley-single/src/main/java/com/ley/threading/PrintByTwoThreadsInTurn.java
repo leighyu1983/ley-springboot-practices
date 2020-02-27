@@ -31,7 +31,7 @@ public class PrintByTwoThreadsInTurn {
 
 
     /**
-     * 通知 -> 等待 -> 打印
+     * 通知 -> 等待 -> 打印  sychrnozied wait notify
      * @throws Exception
      */
     public void runWaitNotify() throws Exception{
@@ -66,7 +66,7 @@ public class PrintByTwoThreadsInTurn {
         this.notify();
     }
 
-    private synchronized  void printTwoWaitNotify() {
+    private synchronized void printTwoWaitNotify() {
         for (int i = 1; i < PrintByTwoThreadsInTurn.LOOP_TIMES; i += 2) {
             //通知另一个线程打印
             this.notify();
@@ -87,7 +87,7 @@ public class PrintByTwoThreadsInTurn {
     }
 
     /**
-     * Volatile
+     * Volatile change variable status in while
      *
      * 多线程判断状态需要用while判断wait notify (wait 的 java doc 也提及需要用while避免虚假唤醒)
      * 如果两个及以上线程消费同一个对象，被消费的对象应该的判断必须放在循环中，否则可能会出现多个线程等待(wait)对象到某个状态，
