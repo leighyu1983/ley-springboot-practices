@@ -15,6 +15,7 @@
         <module>ley-aop-config</module>
         <module>ley-test-tomcat</module>
         <module>ley-commons-pool2</module>
+        <module>ley-agent</module>
     </modules>
 
 
