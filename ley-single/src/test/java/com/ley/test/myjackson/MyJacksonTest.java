@@ -1,11 +1,5 @@
 package com.ley.test.myjackson;
 
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ley.myjackson.AbstractFruit;
-import com.ley.myjackson.Apple;
-import com.ley.myjackson.Orange;
-import com.ley.threading.PrintByTwoThreadsInTurn;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -23,19 +17,32 @@ import org.springframework.test.context.junit4.SpringRunner;
 @Slf4j
 public class MyJacksonTest {
 
+    //防止在极端情况下的指令重排
+    private static volatile MyJacksonTest instance;
+    private MyJacksonTest(){ };
+
+    public static MyJacksonTest getInstance() {
+        // 优化锁范围
+        if (instance == null) {
+            // 防止多线程竞争资源
+            synchronized (MyJacksonTest.class) {
+                /*
+                  防止第一个线程为检查实例为null后，
+                  第二个线程进入检查也为null,并且完成了初始化。
+                  此时第一个线程在这里需要在判断实例是否为空，否则会实例化两个实例
+                 */
+                if (instance == null) {
+                    instance = new MyJacksonTest();
+                }
+            }
+        }
+        return instance;
+    }
+
     @Test
     public void testPrintByTwoThreadsWaitNotify() throws Exception {
         String jsonStr = "{\"appleName\": \"abd\"}";
 
-        ObjectMapper mapper =
-                new ObjectMapper().configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
-        AbstractFruit fruit = mapper.readValue(jsonStr, AbstractFruit.class);
-        if(fruit instanceof Apple) {
-            log.info(".....apple....");
-        } else if (fruit instanceof Orange) {
-            log.info(".....orange....");
-        } else {
-            log.info(".....unknown....");
-        }
+
     }
 }

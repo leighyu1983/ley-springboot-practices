@@ -89,10 +89,13 @@ public class PrintByTwoThreadsInTurn {
     /**
      * Volatile change variable status in while
      *
-     * 多线程判断状态需要用while判断wait notify (wait 的 java doc 也提及需要用while避免虚假唤醒)
-     * 如果两个及以上线程消费同一个对象，被消费的对象应该的判断必须放在循环中，否则可能会出现多个线程等待(wait)对象到某个状态，
-     * 一旦到达某个状态，全部的消费线程将全部进行业务处理，这是不对的。应该只有一个线程进行消费，其他的线程依然等待。或者使用notify
-     * 不使用notifyall 进行一个唤醒。
+     * 特别好的例子 https://dzone.com/articles/java-volatile-keyword-0
+     * 一般情况使用static 而不用volatile没有问题，但是在特殊的场景下，比如下例或者上面链接中的例子，模拟高并发场景下的循环，
+     * 如果不用volatile,一个线程对数据的更新，不能马上被另一个线程看到，因为都在使用从主内存拷贝出来的副本数据，
+     * 平时的时候，只用static是不会碰到不用volatile这个问题，因为业务处理完后，系统有充足的时间完成一个线程的数据同步回主线程，
+     * 另一个线程从主线程读取新的数据。
+     *
+     * 另一个说明，上面连接中的例子没有使用== 而是 《=，这是推荐的做法，在高并发场景下避免扣成负数。
      *
      * @throws Exception
      */
