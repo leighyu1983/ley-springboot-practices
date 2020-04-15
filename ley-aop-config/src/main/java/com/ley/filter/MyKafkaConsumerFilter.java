@@ -2,8 +2,8 @@ package com.ley.filter;
 
 import java.lang.annotation.*;
 
-@Target(ElementType.TYPE)
+@Target({ElementType.TYPE, ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
-public @interface MyKafkaFilter {
+public @interface MyKafkaConsumerFilter {
 }

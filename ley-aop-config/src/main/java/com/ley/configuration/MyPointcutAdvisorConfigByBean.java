@@ -1,14 +1,11 @@
 package com.ley.configuration;
 
-import com.ley.filter.MyKafkaFilter;
+import com.ley.filter.MyKafkaConsumerFilter;
 import org.aopalliance.aop.Advice;
 import org.aopalliance.intercept.MethodInterceptor;
 import org.aopalliance.intercept.MethodInvocation;
-import org.springframework.aop.ClassFilter;
-import org.springframework.aop.MethodMatcher;
 import org.springframework.aop.Pointcut;
 import org.springframework.aop.support.AbstractPointcutAdvisor;
-import org.springframework.aop.support.DefaultPointcutAdvisor;
 import org.springframework.aop.support.annotation.AnnotationMatchingPointcut;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -27,7 +24,7 @@ public class MyPointcutAdvisorConfigByBean {
     public AbstractPointcutAdvisor myAspectAdvisor() {
         return new AbstractPointcutAdvisor() {
             /**
-             * 一个 method 执行前或执行后的动作
+             * method 执行前或执行后的动作
              *
              * @return
              */
@@ -64,7 +61,7 @@ public class MyPointcutAdvisorConfigByBean {
                  * 表达式切点: AspectJExpressionPointcut
                  *
                  */
-                return new AnnotationMatchingPointcut(MyKafkaFilter.class, MyKafkaFilter.class);
+                return new AnnotationMatchingPointcut(MyKafkaConsumerFilter.class, MyKafkaConsumerFilter.class);
             }
         };
     }

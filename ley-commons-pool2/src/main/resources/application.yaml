@@ -1,0 +1,17 @@
+
+spring:
+  redis:
+    database: 0
+    host: 10.67.36.163
+    port: 6380
+    password: d8FMee6Tg8VpLH
+    maxTotal: 3
+    jedis:
+      pool:
+        min-idle: 3
+        max-active: 10
+    lettuce:
+      pool:
+        min-idle: 3
+        max-active: 10
+
