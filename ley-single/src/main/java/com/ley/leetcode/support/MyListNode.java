@@ -11,14 +11,18 @@ import lombok.ToString;
  * @author Leigh Yu
  * @date 2020/2/11 14:30
  */
-public class SingleDirectionNode<T> {
+public class MyListNode<T> {
 
-    public SingleDirectionNode(T data, SingleDirectionNode<T> next) {
+    public MyListNode() {
+
+    }
+
+    public MyListNode(T data, MyListNode<T> next) {
         this.data = data;
         this.next = next;
     }
 
     public T data;
-    public SingleDirectionNode next;
+    public MyListNode next;
 
 }
