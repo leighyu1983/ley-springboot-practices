@@ -16,6 +16,7 @@
         <module>ley-test-tomcat</module>
         <module>ley-commons-pool2</module>
         <module>ley-agent</module>
+        <module>ley-batis</module>
     </modules>
 
 

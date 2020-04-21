@@ -76,7 +76,7 @@ public class ListNodePracticeTest {
         }
 
         log.info("------------------->");
-        MyListNode<String> newNode = ListNodePractice.reverseBetween(a, 1, 3);
+        MyListNode<String> newNode = ListNodePractice.reverseBetween(a, 3, 6);
 
         while (newNode != null) {
             log.info("------>" + newNode.data);

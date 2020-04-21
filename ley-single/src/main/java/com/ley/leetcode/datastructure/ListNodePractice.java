@@ -2,11 +2,13 @@ package com.ley.leetcode.datastructure;
 
 
 import com.ley.leetcode.support.MyListNode;
+import lombok.extern.slf4j.Slf4j;
 
 /**
  * @author Leigh Yu
  * @date 2020/4/12 20:47
  */
+@Slf4j
 public class ListNodePractice {
 
     /**
@@ -61,8 +63,11 @@ public class ListNodePractice {
         MyListNode<String> pcur = pre.next;
 
         for (int i = m; i < n; i++) {
+            log.info("round {}", i);
             MyListNode<String> temp = pcur.next;
+            log.info("temp:{} = pcur.next:{}", temp.data, pcur.next.data);
             pcur.next = temp.next;
+            log.info("pcur.next:{} = temp.next:{}", pcur.next.data, temp.next.data);
             temp.next = pre.next;
             pre.next = temp;
         }

@@ -11,6 +11,7 @@ import lombok.ToString;
  * @author Leigh Yu
  * @date 2020/2/11 14:30
  */
+@ToString
 public class MyListNode<T> {
 
     public MyListNode() {
