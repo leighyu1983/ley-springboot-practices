@@ -3,17 +3,20 @@ package com.ley.register;
 import com.lei.component.HelloComponent;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.context.EnvironmentAware;
+import org.springframework.context.ResourceLoaderAware;
 import org.springframework.context.annotation.ClassPathBeanDefinitionScanner;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.ImportBeanDefinitionRegistrar;
 import org.springframework.core.env.Environment;
+import org.springframework.core.io.ResourceLoader;
 import org.springframework.core.type.AnnotationMetadata;
 import org.springframework.core.type.filter.AssignableTypeFilter;
 import org.springframework.core.type.filter.TypeFilter;
 
 import java.util.Map;
 
-public class LeyMapperScannerRegistrar implements ImportBeanDefinitionRegistrar, EnvironmentAware {
+public class LeyMapperScannerRegistrar implements ImportBeanDefinitionRegistrar,
+		EnvironmentAware, ResourceLoaderAware {
+
 	@Override
 	public void registerBeanDefinitions(
 			AnnotationMetadata importingClassMetadata, BeanDefinitionRegistry registry) {
@@ -23,16 +26,16 @@ public class LeyMapperScannerRegistrar implements ImportBeanDefinitionRegistrar,
 				.getAnnotationAttributes(LeyMapperScan.class.getName());
 		String[] basePackages = (String[]) annotationAttributes.get("basePackages");
 
-		//HelloScan的basePackages默认为空数组
-		if (basePackages == null || basePackages.length == 0) {
-			String basePackage = null;
-			try {
-				basePackage = Class.forName(importingClassMetadata.getClassName()).getPackage().getName();
-			} catch (ClassNotFoundException e) {
-				e.printStackTrace();
-			}
-			basePackages = new String[] {basePackage};
-		}
+//		//HelloScan的basePackages默认为空数组
+//		if (basePackages == null || basePackages.length == 0) {
+//			String basePackage = null;
+//			try {
+//				basePackage = Class.forName(importingClassMetadata.getClassName()).getPackage().getName();
+//			} catch (ClassNotFoundException e) {
+//				e.printStackTrace();
+//			}
+//			basePackages = new String[] {basePackage};
+//		}
 
 		//扫描类
 		ClassPathBeanDefinitionScanner scanner =
@@ -53,4 +56,8 @@ public class LeyMapperScannerRegistrar implements ImportBeanDefinitionRegistrar,
 		System.out.println(projectName);
 	}
 
+	@Override
+	public void setResourceLoader(ResourceLoader resourceLoader) {
+
+	}
 }

@@ -46,30 +46,31 @@ public class ListNodePractice {
      * @return
      */
     public static MyListNode<String> reverseBetween(MyListNode<String> head, int m, int n) {
+        log.info("from {} - to {}", m, n);
         if (head == null || head.next == null || m == n) {
             return head;
         }
-        MyListNode<String> dummy = new MyListNode<String>();
-        // 索引是从1开始，dummy.next = head 而不是 dummy = next，目的是将head前一一位
-        dummy.next = head;
-        MyListNode<String> pre = dummy;
 
-        // 找到第m-1个节点
+        // dummy: 新节点， 其结构为  | null | head node |
+        MyListNode<String> dummy = new MyListNode<String>();
+        dummy.next = head;
+
+        // pre: 用于遍历的节点，指向要遍历的前一个节点
+        MyListNode<String> pre = dummy;
         for ( int i = 1; i < m ; i++) {
             pre = pre.next;
         }
 
-        // pcur是第m个节点
+        // pcur: 要遍历的当前节点
         MyListNode<String> pcur = pre.next;
 
         for (int i = m; i < n; i++) {
-            log.info("round {}", i);
-            MyListNode<String> temp = pcur.next;
-            log.info("temp:{} = pcur.next:{}", temp.data, pcur.next.data);
-            pcur.next = temp.next;
-            log.info("pcur.next:{} = temp.next:{}", pcur.next.data, temp.next.data);
-            temp.next = pre.next;
-            pre.next = temp;
+            // pnext: 当前节点的next节点
+            MyListNode<String> pnext = pcur.next;
+            pcur.next = pcur.next.next; // temp.next;
+            pnext.next = pre.next;
+            pre.next = pnext;
+            log.info("round {}", i - m);
         }
         return dummy.next;
     }
