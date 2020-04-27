@@ -17,6 +17,7 @@
         <module>ley-commons-pool2</module>
         <module>ley-agent</module>
         <module>ley-batis</module>
+        <module>ley-inject-bean</module>
     </modules>
 
 
