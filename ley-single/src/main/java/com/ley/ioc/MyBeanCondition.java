@@ -13,3 +13,5 @@ public class MyBeanCondition {
 		return new MyBeanA("abc");
 	}
 }
+
+
