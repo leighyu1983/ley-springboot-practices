@@ -1,7 +1,9 @@
 package com.ley.register;
 
 import com.lei.component.HelloComponent;
+import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
+import org.springframework.beans.factory.support.DefaultListableBeanFactory;
 import org.springframework.context.EnvironmentAware;
 import org.springframework.context.ResourceLoaderAware;
 import org.springframework.context.annotation.ClassPathBeanDefinitionScanner;
@@ -20,7 +22,7 @@ public class LeyMapperScannerRegistrar implements ImportBeanDefinitionRegistrar,
 	@Override
 	public void registerBeanDefinitions(
 			AnnotationMetadata importingClassMetadata, BeanDefinitionRegistry registry) {
-
+		DefaultListableBeanFactory b;
 		//扫描注解
 		Map<String, Object> annotationAttributes = importingClassMetadata
 				.getAnnotationAttributes(LeyMapperScan.class.getName());

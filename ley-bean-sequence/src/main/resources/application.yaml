@@ -1,0 +1,4 @@
+
+spring:
+  banner:
+    location: banner/banner.txt

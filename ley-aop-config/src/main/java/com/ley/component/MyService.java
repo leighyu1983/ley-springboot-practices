@@ -1,4 +1,4 @@
-package com.ley.service;
+package com.ley.component;
 
 import com.ley.filter.MyKafkaConsumerFilter;
 import lombok.extern.slf4j.Slf4j;

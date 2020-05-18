@@ -18,6 +18,9 @@
         <module>ley-agent</module>
         <module>ley-batis</module>
         <module>ley-inject-bean</module>
+        <module>ley-dynamic-property</module>
+        <module>ley-property-source</module>
+        <module>ley-bean-sequence</module>
     </modules>
 
 
