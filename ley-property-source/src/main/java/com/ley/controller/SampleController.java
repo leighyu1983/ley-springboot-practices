@@ -12,20 +12,26 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class SampleController {
 
-	// cannot get
+	/**
+	 * TODO add  configurationProperties and properties files
+	 */
 	@Value("${gender}")
 	private String gender;
+
+	@Autowired private MyPropertyConfig myPropertyConfig;
 
 	//@Autowired private Environment env;
 
 	@GetMapping("/post-processor/get")
 	public String getPostProcessor() {
+		String you = myPropertyConfig.getYou();
 		//return "gender is .... " + env.getProperty("gender");
-		return "gender is .... " + gender;
+		return "gender is -> " + gender + ".......you is -> " + you;
 	}
 
-	@GetMapping("/post-processor/update/{val}")
-	public void updatePostProcessor(@PathVariable("val") String newValue) {
-		LeyStringValueCollection.getManager().onChange("gender", newValue);
+	@GetMapping("/post-processor/update/{val1}/{val2}")
+	public void updatePostProcessor(@PathVariable("val1") String newGender, @PathVariable("val2") String newYou) {
+		LeyStringValueCollection.getManager().onChange("gender", newGender);
+		LeyStringValueCollection.getManager().onChange("you", newYou);
 	}
 }

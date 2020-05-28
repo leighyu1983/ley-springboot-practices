@@ -6,8 +6,20 @@ public class LeyStringValue {
 	private String beanName;
 	private Object bean;
 	private Field field;
+	/**
+	 * placeHolder:
+	 * 	@Value: placeHolder
+	 * 	@ConfigurationProperties:  fieldName
+	 */
 	private String placeHolder;
 
+	/**
+	 *
+	 * @param placeHolder
+	 * @param bean
+	 * @param beanName
+	 * @param field
+	 */
 	public LeyStringValue(String placeHolder, Object bean, String beanName, Field field) {
 		this.beanName = beanName;
 		this.bean = bean;

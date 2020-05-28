@@ -1,7 +1,7 @@
 package com.ley.test.leetcode.datastructure;
 
-import com.ley.leetcode.datastructure.ListNodePractice;
-import com.ley.leetcode.support.MyListNode;
+import com.ley.lcode.datastructure.ListNodePractice;
+import com.ley.lcode.support.MyListNode;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.junit.runner.RunWith;

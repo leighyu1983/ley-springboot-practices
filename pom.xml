@@ -21,6 +21,8 @@
         <module>ley-dynamic-property</module>
         <module>ley-property-source</module>
         <module>ley-bean-sequence</module>
+        <module>ley-customized-scheduler</module>
+        <module>ley-mq-stream</module>
     </modules>
 
 

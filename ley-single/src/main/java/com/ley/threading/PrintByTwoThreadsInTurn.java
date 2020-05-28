@@ -23,6 +23,7 @@ public class PrintByTwoThreadsInTurn {
     private volatile boolean VOLATILE_FLAG = false;
     // 多线程按照顺序依次调用
     private final Lock lock = new ReentrantLock();
+    // Condition.wait() & Signal()来实现
     private final Condition c1 = lock.newCondition();
     private final Condition c2 = lock.newCondition();
     private final Condition c3 = lock.newCondition();

@@ -1,6 +1,6 @@
 package com.ley.test.leetcode.algorithm;
 
-import com.ley.leetcode.algorithm.AlgoSimple;
+import com.ley.lcode.algorithm.AlgoSimple;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;

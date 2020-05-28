@@ -1,6 +1,6 @@
 package com.ley.test;
 
-import com.ley.configuration.MyConfiguration;
+import com.ley.shedlock.configuration.MyConfiguration;
 import com.ley.component.MyService;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;

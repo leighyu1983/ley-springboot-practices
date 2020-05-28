@@ -5,6 +5,7 @@ import com.ley.entity.LeyStringValue;
 import com.ley.entity.LeyStringValueCollection;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.config.BeanPostProcessor;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 import org.springframework.util.ReflectionUtils;
 
@@ -17,10 +18,28 @@ import java.util.List;
 public class MySpringValueProcessor implements BeanPostProcessor {
 	@Override
 	public Object postProcessBeforeInitialization(Object bean, String beanName) {
+
+		processConfigurationPropertyField(bean, beanName);
+
 		for (Field field : findAllField(bean.getClass())) {
-			processField(bean, beanName, field);
+			processValueField(bean, beanName, field);
 		}
 		return bean;
+	}
+
+	private void processConfigurationPropertyField(Object bean, String beanName) {
+		ConfigurationProperties cp = (ConfigurationProperties) bean.getClass().getAnnotation(ConfigurationProperties.class);
+		// TODO if this is encapused in another jar/starter, business application package name should be passed in to jar/starter
+		// pass the package into current place.
+		if(cp == null || !bean.getClass().getPackage().getName().contains("com.ley")) {
+			return ;
+		}
+
+		List<Field> fields = findAllField(bean.getClass());
+
+		for(Field field : fields) {
+			processConfigPropertiesField(bean, beanName, field);
+		}
 	}
 
 	private List<Field> findAllField(Class clazz) {
@@ -34,7 +53,7 @@ public class MySpringValueProcessor implements BeanPostProcessor {
 		return res;
 	}
 
-	protected void processField(Object bean, String beanName, Field field) {
+	protected void processValueField(Object bean, String beanName, Field field) {
 		Value value = field.getAnnotation(Value.class);
 		if (value == null) {
 			return;
@@ -43,6 +62,11 @@ public class MySpringValueProcessor implements BeanPostProcessor {
 		String placeHolder = value.value();
 		placeHolder = placeHolder.replace("$", "").replace("{", "").replace("}", "");
 		LeyStringValueCollection.getManager().add(new LeyStringValue(placeHolder, bean, beanName, field));
+		String qq = "";
+	}
+
+	protected void processConfigPropertiesField(Object bean, String beanName, Field field) {
+		LeyStringValueCollection.getManager().add(new LeyStringValue(field.getName(), bean, beanName, field));
 		String qq = "";
 	}
 }

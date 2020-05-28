@@ -1,6 +1,6 @@
 package com.ley.test.leetcode.algorithm;
 
-import com.ley.leetcode.algorithm.AlgoDoublePoints;
+import com.ley.lcode.algorithm.AlgoDoublePoints;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -26,6 +26,15 @@ public class AlgoDoublePointsTest {
     @Test
     public void testReverseVowelsOfString() {
         String result = AlgoDoublePoints.reverseVowelsOfString("leetcode");
+        log.info("------>" + result);
+    }
+
+    @Test
+    public void testlc4() {
+        // abbacfabcd
+        String target = "abcdce";
+        log.info("------>" + target);
+        long result = AlgoDoublePoints.lc4(target);
         log.info("------>" + result);
     }
 }
