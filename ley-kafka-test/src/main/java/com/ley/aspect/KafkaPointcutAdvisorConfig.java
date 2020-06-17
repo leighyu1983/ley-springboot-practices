@@ -4,8 +4,6 @@ import com.ley.filter.MyKafkaFilter;
 import com.ley.interceptor.KafkaFilterMethodInterceptor;
 import lombok.extern.slf4j.Slf4j;
 import org.aopalliance.aop.Advice;
-import org.aopalliance.intercept.MethodInterceptor;
-import org.aopalliance.intercept.MethodInvocation;
 import org.springframework.aop.Pointcut;
 import org.springframework.aop.support.AbstractPointcutAdvisor;
 import org.springframework.aop.support.annotation.AnnotationMatchingPointcut;

@@ -35,12 +35,9 @@ public class MyPointcutAdvisorConfigByBean {
                     @Override
                     public Object invoke(MethodInvocation invocation) throws Throwable {
                         try {
-
                             Object result = invocation.proceed();
-
                             return result;
                         } catch(Throwable e) {
-
                             throw e;
                         }
                     }

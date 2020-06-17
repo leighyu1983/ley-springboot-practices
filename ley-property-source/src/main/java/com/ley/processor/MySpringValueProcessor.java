@@ -27,10 +27,32 @@ public class MySpringValueProcessor implements BeanPostProcessor {
 		return bean;
 	}
 
+	/**
+	 *
+	 * @param bean
+	 * @param beanName
+	 */
 	private void processConfigurationPropertyField(Object bean, String beanName) {
 		ConfigurationProperties cp = (ConfigurationProperties) bean.getClass().getAnnotation(ConfigurationProperties.class);
-		// TODO if this is encapused in another jar/starter, business application package name should be passed in to jar/starter
-		// pass the package into current place.
+
+		/**
+		 *
+		 *	  TODO if this is encapused in another jar/starter, business application package name
+		 *	  TODO should be passed in to jar/starter pass the package into current place.
+		 *    TODO not support Bean ....
+		 * 	  TODO class's Field, below is method.
+		 *
+		 *     @Bean
+		 *     @ConfigurationProperties(prefix = "custom.source")
+		 *     public DataSource dataSource() {
+		 *         return DataSourceBuilder.create().build();
+		 *     }
+		 *
+		 *     @Bean
+		 *     public JdbcTemplate jdbcTemplate() {
+		 *         return new JdbcTemplate(dataSource());
+		 *     }
+ 		 */
 		if(cp == null || !bean.getClass().getPackage().getName().contains("com.ley")) {
 			return ;
 		}
