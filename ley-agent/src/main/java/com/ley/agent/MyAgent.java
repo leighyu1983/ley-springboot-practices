@@ -25,7 +25,6 @@ public class MyAgent {
 	 */
 	public static void premain(String agentArgs, Instrumentation inst) {
 		System.out.println("agent 1 === " + agentArgs);
-		//byteBuddyAgent(inst);
 		//try2(inst);
 		try3(inst);
 	}
@@ -89,14 +88,21 @@ public class MyAgent {
 		//DO NOT ADD message in listener since need more testing. Agent doesn't take effect due to this reason.
 		AgentBuilder agentBuilder = new AgentBuilder.Default();
 
-		// rules okhttp
+		// rules for okhttp
 		agentBuilder = agentBuilder
 			.type(ElementMatchers.named("okhttp3.Request"))
 			.transform((builder, typeDescription, classLoader, module) ->
 				builder.visit(Advice.to(MyOkHttp3Advice.class).on(ElementMatchers.isConstructor()))
 			);
 
-		// rules method, this can handle the situation that proxy cannot handle, a->b->c
+		// rules for method, this can handle the situation that proxy cannot handle, a->b->c
+		agentBuilder = agentBuilder
+			.type(ElementMatchers.nameStartsWithIgnoreCase("com.ley"))
+			.transform((builder, typeDescription, classLoader, module) ->
+					builder.visit(Advice.to(MyAdvice.class).on(ElementMatchers.isMethod()))
+			);
+
+		// rules for log
 		agentBuilder = agentBuilder
 			.type(ElementMatchers.nameStartsWithIgnoreCase("com.ley"))
 			.transform((builder, typeDescription, classLoader, module) ->
@@ -104,41 +110,6 @@ public class MyAgent {
 			);
 
 		agentBuilder.with(buildListener()).installOn(inst);
-	}
-
-	private static void byteBuddyAgent(Instrumentation inst) {
-		System.out.println(" in byteBuddyAgent  ");
-		AgentBuilder agentBuilder = buildAgentBuilder();
-		System.out.println(" finish agentBuilder  ");
-
-		List<IPlugin> plugins = loadPlugins();
-		for(IPlugin plugin : plugins) {
-			for (IInterceptPoint point : plugin.buildInterceptPoint()) {
-				System.out.println("Looping....IInterceptPoint" + point.getClass());
-				AgentBuilder.Transformer transformer = new AgentBuilder.Transformer() {
-					@Override
-					public DynamicType.Builder<?> transform(DynamicType.Builder<?> builder, TypeDescription typeDescription, ClassLoader classLoader, JavaModule javaModule) {
-						String className = typeDescription.getCanonicalName();
-						//builder = builder.visit(Advice.to(plugin.interceptorAdviceClass()).on(point.buildMethodsMatcher()));
-						builder = builder.visit(Advice.to(plugin.interceptorAdviceClass()).on(ElementMatchers.any()));
-						return builder;
-					}
-				};
-				agentBuilder = agentBuilder.type(point.buildTypesMatcher()).transform(transformer);//.asTerminalTransformation();
-			}
-		}
-
-
-		System.out.println(" finish appendTransformerFromPlugin  ");
-		AgentBuilder.Listener listener = buildListener();
-		System.out.println(" finish listener  ");
-		agentBuilder.with(listener).installOn(inst);
-		System.out.println(" finish last step  ");
-	}
-
-	private static AgentBuilder buildAgentBuilder() {
-		return new AgentBuilder.Default().ignore(ElementMatchers.nameStartsWith("com.ley.agent."));
-		//return new AgentBuilder.Default();
 	}
 
 	private static AgentBuilder.Listener buildListener() {

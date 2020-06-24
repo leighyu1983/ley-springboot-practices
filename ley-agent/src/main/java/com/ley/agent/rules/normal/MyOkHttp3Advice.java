@@ -2,7 +2,10 @@ package com.ley.agent.rules.normal;
 
 import net.bytebuddy.asm.Advice;
 
+import java.util.UUID;
+
 public class MyOkHttp3Advice {
+
 	@Advice.OnMethodEnter //方法进入前记录开始时间
 	static long enter(@Advice.Origin("#t") String className,
 					  @Advice.Origin("#m") String methodName,
@@ -10,7 +13,7 @@ public class MyOkHttp3Advice {
 		System.out.println("MyOkHttp3Advice my...okhttp3...." );
 		if(args != null && args.length > 0 && args[0] != null && args[0] instanceof okhttp3.Request.Builder) {
 			okhttp3.Request.Builder builder = (okhttp3.Request.Builder)args[0];
-			builder.header("ley", "do ci da ci");
+			builder.header("ley", "do ci da ci" + UUID.randomUUID().toString());
 		}
 		return System.currentTimeMillis();
 	}

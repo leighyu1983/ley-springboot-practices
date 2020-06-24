@@ -6,3 +6,17 @@
 #    port: 6380
 #    password: d8FMee6Tg8VpLH
 
+auth:
+  url: http://localhost:8080
+  username: test
+  password: test
+
+feign:
+  httpclient:
+    enabled: false
+  okhttp:
+    enabled: true
+
+
+
+

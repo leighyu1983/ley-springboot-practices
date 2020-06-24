@@ -2,6 +2,7 @@ package com.ley;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 
 /**
  * java -javaagent:<path>/myAgent.jar -jar myApp.jar
