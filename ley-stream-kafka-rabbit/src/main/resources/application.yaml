@@ -1,0 +1,25 @@
+server:
+  port: 8080
+
+spring:
+  cloud:
+    stream:
+      binders: # each sub node is a mq server.
+        my-rabbit-1:
+          type: rabbit
+          environment:
+            spring:
+              rabbitmq:
+                host: localhost
+                port: 32775
+                username: guest
+                password: guest
+      bindings:
+        input-R1: # 接收 Sink
+          destination: default.messages # topic
+          binder: my-rabbit-1
+          group: g1
+        output-R1: # 发送 Source
+          destination: stream-demo    # topic
+          content-type: application/json    #消息发送的格式，接收端不用指定格式，但是发送端要
+          binder: my-rabbit-1

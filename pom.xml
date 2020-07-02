@@ -23,6 +23,7 @@
         <module>ley-bean-sequence</module>
         <module>ley-customized-scheduler</module>
         <module>ley-mq-stream</module>
+        <module>ley-stream-kafka-rabbit</module>
     </modules>
 
 
