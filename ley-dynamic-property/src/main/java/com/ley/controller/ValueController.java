@@ -39,6 +39,5 @@ public class ValueController {
 	@GetMapping("/property/loop/update")
 	public void loopUpdate(@RequestParam("name") String name) throws Exception {
 		PropertySource ps = environment.getPropertySources().get("ley-name");
-		ps.
 	}
 }

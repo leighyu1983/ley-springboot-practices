@@ -2,24 +2,185 @@ server:
   port: 8080
 
 spring:
+  application:
+    name: have-fun
   cloud:
     stream:
-      binders: # each sub node is a mq server.
-        my-rabbit-1:
+      rabbit:
+        bindings:
+          consumerRA: # channel name
+            consumer:
+              acknowledge-mode: manual
+              queueNameGroupOnly: true # use group name as queue name rather than <exchange.group>
+              bindingRoutingKey: ra1
+          consumerRA2: # channel name
+            consumer:
+              acknowledge-mode: manual
+              queueNameGroupOnly: true # use group name as queue name rather than <exchange.group>
+              bindingRoutingKey: ra2
+          producerRA:
+            producer:
+              queueNameGroupOnly: true
+              routingKeyExpression: '''ra1'''
+              bindingRoutingKey: ra1
+          producerRA2:
+            producer:
+              queueNameGroupOnly: true
+              routingKeyExpression: '''ra2'''
+              bindingRoutingKey: ra2
+          direct_R_producer_A:
+            consumer:
+              bindQueue: false
+              declareExchange: false
+              queueNameGroupOnly: true
+              exchangeType: direct
+              bindingRoutingKey: dr1 # for direct
+              acknowledge-mode: manual
+            producer:
+              exchangeType: direct
+              routingKeyExpression: '''dr1''' # for direct
+          direct_R_consumer_A:
+            consumer:
+              bindQueue: false
+              declareExchange: false
+              queueNameGroupOnly: true
+              exchangeType: direct # must specify, othwise throw exception
+              bindingRoutingKey: dr1 # for direct
+              acknowledge-mode: manual
+            producer:
+              exchangeType: direct
+              routingKeyExpression: '''dr1''' # for direct
+          fanout_R_producer_A:
+            consumer:
+              bindQueue: false
+              declareExchange: false
+              queueNameGroupOnly: true
+              exchangeType: fanout
+              acknowledge-mode: manual
+            producer:
+              exchangeType: fanout
+          fanout_R_consumer_cA1:
+            consumer:
+              bindQueue: false
+              declareExchange: false
+              queueNameGroupOnly: true
+              exchangeType: fanout
+              acknowledge-mode: manual
+            producer:
+              exchangeType: fanout
+          fanout_R_consumer_cA2:
+            consumer:
+              bindQueue: false
+              declareExchange: false
+              queueNameGroupOnly: true
+              exchangeType: fanout
+              acknowledge-mode: manual
+            producer:
+              exchangeType: fanout
+      kafka:
+        binder:
+          consumer-properties:
+            max:
+              poll:
+                interval:
+                  ms: 500000
+            session:
+              timeout:
+                ms: 500000
+        bindings:
+          consumer-K1:
+            consumer:
+              autoCommitOffset: false
+
+      bindings:
+        consumerRA: # channel name
+          destination: r-e-1 # rabbit exchange
+          binder: my-rabbit-1
+          group: g4 # queue
+          consumer:
+            max-attempts: 1
+        producerRA:
+          destination: r-e-1
+          group: g4  # queue
+          binder: my-rabbit-1
+          producer:
+            requiredGroups: g4 # routing key
+        consumerRA2: # channel name
+          destination: r-e-1 # rabbit exchange
+          binder: my-rabbit-1
+          group: g5  # queue
+          consumer:
+            max-attempts: 1
+        producerRA2:
+          destination: r-e-1
+          binder: my-rabbit-1
+          group: g5  # queue
+          producer:
+            requiredGroups: g5 # routing key
+            #batchingEnabled: true # message<list<xxx>>
+        direct_R_producer_A: # channel name
+          binder: my-rabbit-1
+          destination: r-e-2 # rabbit exchange
+          group: g7 # queue  Without this, RoutingKey # is generated for exchange binding
+          #producer:
+          #  exchangeType: direct
+          #  requiredGroups: g7 # routing key
+        direct_R_consumer_A:
+          destination: r-e-2 # rabbit exchange
+          binder: my-rabbit-1
+          group: g7  # queue
+          consumer:
+            max-attempts: 1
+        fanout_R_producer_A: # channel name
+          binder: my-rabbit-1
+          destination: r-e-3 # rabbit exchange
+          group: g8 # queue  Without this, RoutingKey # is generated for exchange binding
+        fanout_R_consumer_cA1:
+          destination: r-e-3 # rabbit exchange
+          binder: my-rabbit-1
+          group: g8  # queue
+          consumer:
+            max-attempts: 1
+        fanout_R_consumer_cA2:
+          destination: r-e-3 # rabbit exchange
+          binder: my-rabbit-1
+          group: g9  # queue
+          consumer:
+            max-attempts: 1
+        consumer-K1:
+          destination: my.k1
+          binder: my-kafka-1
+          group: g2
+          consumer:
+            max-attempts: 1
+        producer-K1:
+          destination: my.k1
+          binder: my-kafka-1
+
+      binders:
+        my-rabbit-1: # binder
           type: rabbit
           environment:
             spring:
               rabbitmq:
-                host: localhost
-                port: 32775
-                username: guest
-                password: guest
-      bindings:
-        input-R1: # 接收 Sink
-          destination: default.messages # topic
-          binder: my-rabbit-1
-          group: g1
-        output-R1: # 发送 Source
-          destination: stream-demo    # topic
-          content-type: application/json    #消息发送的格式，接收端不用指定格式，但是发送端要
-          binder: my-rabbit-1
+                host: 10.64.44.53
+                port: 5672
+                username: admin
+                password: 123456
+                virtual-host: /
+
+        my-kafka-1:
+          type: kafka
+          environment:
+            spring:
+              kafka:
+                host: 10.64.44.53
+                port: 9092
+                #auto-create-topics: false
+      default-binder: my-rabbit-1
+
+
+
+
+
+

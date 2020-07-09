@@ -25,6 +25,11 @@ public class VerifyCodeGeneratorController {
 	@Autowired UserPublishEventService userPublishEventService;
 	@Autowired(required = false) MyBeanA myBeanA;
 
+	@GetMapping("/ping")
+	public String ping() {
+		return "pong";
+	}
+
 	@GetMapping("/test/code")
 	public void TestCodeGenerator() {
 		VerifyCodeGenerator.getVerifyCodeMultipleThreading(4);
