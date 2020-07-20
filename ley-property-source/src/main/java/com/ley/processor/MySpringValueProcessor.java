@@ -1,8 +1,8 @@
 package com.ley.processor;
 
 
-import com.ley.entity.LeyStringValue;
-import com.ley.entity.LeyStringValueCollection;
+import com.ley.stream.entity.LeyStringValue;
+import com.ley.stream.entity.LeyStringValueCollection;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.beans.factory.config.BeanPostProcessor;
 import org.springframework.boot.context.properties.ConfigurationProperties;

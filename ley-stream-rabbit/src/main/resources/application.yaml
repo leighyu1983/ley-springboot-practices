@@ -1,0 +1,58 @@
+spring:
+  cloud:
+    stream:
+      rabbit:
+        bindings:
+          output-r3:
+            producer:
+              #bindQueue: false # no need in producer, just need in consumer
+              declareExchange: false # both producer & consumer   don't create exchange
+              routingKeyExpression: '''routingkey-123.word-1'''
+          input-r3-1:
+            consumer:
+              bindQueue: false # don't create queue
+              declareExchange: false  # both producer & consumer   don't create exchange
+              queueNameGroupOnly: true
+              acknowledgeMode: manual # no need in producer, just need in consumer
+              exchangeType: topic
+              bindingRoutingKey: routingkey-123.*
+#          input-r3-2:
+#            consumer:
+#              bindQueue: false # don't create queue
+#              declareExchange: false  # both producer & consumer   don't create exchange
+#              queueNameGroupOnly: true
+#              acknowledgeMode: manual # no need in producer, just need in consumer
+#              exchangeType: topic
+#              bindingRoutingKey: routingkey-123.*
+      bindings:
+        input-r3-1: #channel
+          binder: my-rabbit-3
+          destination: ley.topic.broad.r3 #exchange
+          group: r31 # queue  # -
+          consumer:
+            max-attempts: 1
+#        input-r3-2: #channel
+#          binder: my-rabbit-3
+#          destination: ley.topic.broad.r3 #exchange
+#          group: r32 # queue
+#          consumer:
+#            max-attempts: 1
+        output-r3: #channel
+          binder: my-rabbit-3
+          destination: ley.topic.broad.r3 #exchange
+          exchangeType: topic
+
+      binders:
+        my-rabbit-3: # binder
+          type: rabbit
+          environment:
+            spring:
+              rabbitmq:
+                host: localhost
+                #host: 10.68.181.65
+                port: 5672
+                username: user
+                password: password
+                virtual-host: /
+
+

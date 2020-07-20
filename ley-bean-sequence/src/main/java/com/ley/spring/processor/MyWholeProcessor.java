@@ -1,6 +1,6 @@
 package com.ley.spring.processor;
 
-import com.ley.entity.Person;
+import com.ley.stream.entity.Person;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.MutablePropertyValues;
 import org.springframework.beans.factory.config.BeanDefinition;

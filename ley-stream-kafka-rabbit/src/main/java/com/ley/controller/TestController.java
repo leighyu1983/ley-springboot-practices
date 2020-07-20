@@ -1,6 +1,6 @@
 package com.ley.controller;
 
-import com.ley.entity.School;
+import com.ley.stream.entity.School;
 import com.ley.sender.MySender;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +17,7 @@ import java.util.List;
 public class TestController {
 
 	@Autowired private MySender mySender;
+
 
 	@GetMapping("/ping")
 	public String ping() {
@@ -75,5 +76,11 @@ public class TestController {
 		school.setName("name-tom");
 		school.setType("university");
 		mySender.sendK1Msg(school);
+	}
+
+	// this is not handled by custom framework.
+	@GetMapping("/kafka-exception")
+	public void kafkaException() throws Exception {
+		throw new Exception("kafka testing business exception");
 	}
 }

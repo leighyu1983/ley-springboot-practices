@@ -1,0 +1,10 @@
+package com.ley.annotation;
+
+import java.lang.annotation.*;
+
+@Target(ElementType.FIELD)
+@Retention(RetentionPolicy.RUNTIME)
+@Documented
+public @interface MqKey {
+
+}

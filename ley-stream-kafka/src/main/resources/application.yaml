@@ -1,0 +1,28 @@
+spring:
+  cloud:
+    stream:
+      kafka:
+        bindings:
+          input-K3:
+            consumer:
+              auto-commit-offset: false
+
+      bindings:
+        input-K3:
+          destination: my.k3 #topic
+          binder: my-kafka-3
+          group: g3
+          consumer:
+            max-attempts: 1
+        output-K3:
+          destination: my.k3 #topic
+          binder: my-kafka-3
+
+      binders:
+        my-kafka-3:
+          type: kafka
+          environment:
+            spring:
+              kafka:
+                host: localhost
+                port: 9092

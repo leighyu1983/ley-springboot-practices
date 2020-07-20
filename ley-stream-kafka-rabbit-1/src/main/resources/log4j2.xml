@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+1. 日志级别以及优先级排序: OFF > FATAL > ERROR > WARN > INFO > DEBUG > TRACE > ALL
+   如果设置为WARN，则低于WARN的信息(INFO,DEBUG,TRACE,ALL)都不会输出。对于Loggers中level的定义同样适用。
+2. status="WARN" :用于设置log4j2自身内部日志的信息输出级别，默认是OFF
+3. monitorInterval="30"  :间隔秒数,自动检测配置文件的变更和重新配置本身
+-->
+<Configuration status="OFF">
+    <Properties>
+        <!--自定义一些常量，之后使用${变量名}引用-->
+        <Property name="logFilePath">log</Property>
+        <Property name="logFileName">test.log</Property>
+    </Properties>
+
+    <Appenders>
+        <!--Appender 1. 输出到Console，指定输出格式和过滤器等级为ERROR -->
+        <Console name="Console" target="SYSTEM_OUT">
+            <!--
+            %d{HH:mm:ss.SSS}
+            %t 线程名
+            %-5level 输出日志级别，-5表示左对齐并且固定输出5个字符，如果不足在右边补0
+            %logger 输出logger名称，因为Root Logger没有名称，所以没有输出
+            %msg 日志文本
+            %M 方法名
+            %n 换行
+            -->
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n" />
+        </Console>
+        <!--Appender 2. 输出到滚动保存的文件, 触发保存日志文件的条件是日志文件大于3KB，只保存最新的10个日志-->
+        <RollingFile name="RollingFile" fileName="${logFilePath}/debug.log" filePattern="${logFilePath}/debug-%i.log">
+            <PatternLayout pattern="[%-5level][%d{yyyy-MM-dd HH:mm:ss.SSS}][%F:%L] - %m%n" />
+            <Policies>
+                <!-- 3 KB / 20 MB -->
+                <SizeBasedTriggeringPolicy size="3 KB" />
+            </Policies>
+            <!-- DefaultRolloverStrategy 中的参数max，可以限制 SizeBasedTriggeringPolicy中size超出后，只保留max个存档-->
+            <DefaultRolloverStrategy max="10"/>
+        </RollingFile>
+    </Appenders>
+    <Loggers>
+        <!--过滤掉spring和mybatis的一些无用的DEBUG信息-->
+        <!--Logger节点用来单独指定日志的形式，name为包路径,比如要为org.springframework包下所有日志指定为INFO级别等。 -->
+        <logger name="org.springframework" level="INFO"></logger>
+        <logger name="org.mybatis" level="INFO"></logger>
+
+        <Root level="debug">
+            <AppenderRef ref="Console" />
+            <AppenderRef ref="RollingFile" />
+        </Root>
+    </Loggers>
+</Configuration>

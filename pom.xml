@@ -21,6 +21,10 @@
         <module>ley-bean-sequence</module>
         <module>ley-customized-scheduler</module>
         <module>ley-stream-kafka-rabbit</module>
+        <module>ley-stream-kafka</module>
+        <module>ley-stream-rabbit</module>
+        <module>ley-stream-kafka-rabbit-1</module>
+        <module>ley-hdfs</module>
     </modules>
 
 

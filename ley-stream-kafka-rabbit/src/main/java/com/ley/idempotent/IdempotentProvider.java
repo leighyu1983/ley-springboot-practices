@@ -11,11 +11,11 @@ import java.util.Map;
 
 public class IdempotentProvider {
 
-	private String INSERT = "insert into {0}(bizid, message, createdOn) values(:bizid, :message, :createdOn)";
+	private String INSERT = "insert into {0}(bizid, message, cdate, edate, creator, editor) values(:bizid, :message, :createdOn)";
 	private NamedParameterJdbcTemplate template;
 
 	public IdempotentProvider(DataSource dataSource) {
-		template = new NamedParameterJdbcTemplate(dataSource);
+		template = new NamedParameterJdbcTemplate (dataSource);
 	}
 
 	public void insert(String tableName, String bizId, String message) {

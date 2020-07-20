@@ -3,9 +3,11 @@ package com.ley.sender;
 
 import com.ley.configuration.MyKafkaProducerK1Binding;
 import com.ley.configuration.MyRabbitProducerRBinding;
-import com.ley.entity.School;
+import com.ley.stream.entity.School;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.amqp.RabbitProperties;
 import org.springframework.cloud.stream.annotation.EnableBinding;
+import org.springframework.cloud.stream.binder.rabbit.properties.RabbitExtendedBindingProperties;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.support.MessageBuilder;
 

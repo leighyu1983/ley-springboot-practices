@@ -1,0 +1,43 @@
+spring:
+  application:
+    name: have-fun
+  cloud:
+    stream:
+      rabbit:
+        bindings:
+          output-r-direct-q1:
+            producer:
+              declareExchange: false
+              routingKeyExpression: '''exchange1-direct-q1-routing-key'''
+          input-r-direct-q1:
+            consumer:
+              bindQueue: false
+              declareExchange: false
+              queueNameGroupOnly: true
+              acknowledgeMode: manual
+              exchangeType: direct
+              bindingRoutingKey: exchange1-direct-q1-routing-key
+      bindings:
+        output-r-direct-q1:
+          binder: my-rabbit-4
+          destination: exchange-1
+          exchangeType: direct
+        input-r-direct-q1:
+          binder: my-rabbit-4
+          destination: exchange-1
+          group: direct-q1
+          consumer:
+            max-attempts: 1
+
+      binders:
+        my-rabbit-4:
+          type: rabbit
+          environment:
+            spring:
+              rabbitmq:
+                host: localhost
+                port: 5672
+                username: user
+                password: password
+                virtual-host: vhost-1
+

@@ -1,6 +1,6 @@
 package com.ley.config;
 
-import com.ley.entity.CustomBean;
+import com.ley.stream.entity.CustomBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 

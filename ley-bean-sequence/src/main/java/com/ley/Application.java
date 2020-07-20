@@ -4,7 +4,7 @@ import com.lei.byImport.EnableMyImport;
 import com.lei.entity.Interests;
 import com.lei.byPassInPackage.MyMapperScanAnnotation;
 import com.lei.entity.School;
-import com.ley.entity.Person;
+import com.ley.stream.entity.Person;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;

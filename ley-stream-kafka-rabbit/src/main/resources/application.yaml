@@ -78,15 +78,19 @@ spring:
             producer:
               exchangeType: fanout
       kafka:
-        binder:
-          consumer-properties:
-            max:
-              poll:
-                interval:
-                  ms: 500000
-            session:
-              timeout:
-                ms: 500000
+#        binder:
+#          autoCreateTopics: false
+#          consumer-properties:
+#            max:
+#              poll:
+#                interval:
+#                  ms: 600000
+#            session:
+#              timeout:
+#                ms: 6000
+#            heartbeat:
+#              interval:
+#                ms: 2000
         bindings:
           consumer-K1:
             consumer:
@@ -147,15 +151,19 @@ spring:
           group: g9  # queue
           consumer:
             max-attempts: 1
-        consumer-K1:
+        consumer-K1: #channel name
           destination: my.k1
           binder: my-kafka-1
           group: g2
-          consumer:
+          consumer: # not support
+            autoCommitOnError: true
             max-attempts: 1
         producer-K1:
           destination: my.k1
           binder: my-kafka-1
+          consumer:
+            autoCommitOnError: true
+            max-attempts: 1
 
       binders:
         my-rabbit-1: # binder
@@ -163,10 +171,11 @@ spring:
           environment:
             spring:
               rabbitmq:
-                host: 10.64.44.53
+                host: localhost
+                #host: 10.68.181.65
                 port: 5672
-                username: admin
-                password: 123456
+                username: user
+                password: password
                 virtual-host: /
 
         my-kafka-1:
@@ -174,10 +183,17 @@ spring:
           environment:
             spring:
               kafka:
-                host: 10.64.44.53
+                host: localhost
+                #host: 10.68.181.65
                 port: 9092
                 #auto-create-topics: false
       default-binder: my-rabbit-1
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/rabbit_records?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&useSSL=false&zeroDateTimeBehavior=convertToNull&serverTimezone=GMT%2B8
+    username: root
+    password: 123456
 
 
 
