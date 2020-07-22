@@ -9,6 +9,7 @@ import org.springframework.cloud.stream.annotation.StreamListener;
 import org.springframework.messaging.Message;
 import org.springframework.stereotype.Component;
 
+
 @Slf4j
 @Component
 @EnableBinding(MyInputBinding.class)
@@ -17,5 +18,6 @@ public class SampleStreamListener {
 	@StreamListener(MyInputBinding.INPUT_R_DIRECT_Q1)
 	public void inputRDirectQ1(Message<School> message) {
 		log.debug("listener received....");
+		throw new RuntimeException("大西瓜");
 	}
 }

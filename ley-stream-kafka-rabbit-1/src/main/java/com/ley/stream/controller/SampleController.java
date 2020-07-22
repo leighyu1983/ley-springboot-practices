@@ -27,8 +27,10 @@ public class SampleController {
 	@GetMapping("/1")
 	public String a() {
 		Message<School> school = MessageBuilder.withPayload(
-				new School(UUID.randomUUID().toString(), "tome", new Date())
-		).setHeader(AmqpHeaders.CORRELATION_ID, UUID.randomUUID().toString()).build();
+				new School(UUID.randomUUID().toString(), "tome", new Date()))
+				.setHeader(AmqpHeaders.CORRELATION_ID, UUID.randomUUID().toString())
+				.setHeader("trace-id", UUID.randomUUID().toString())
+				.build();
 
 		LOGGER.debug("before sending out......");
 		myOutputBinding.outPutRDirectQ1().send(school);

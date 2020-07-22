@@ -1,6 +1,11 @@
 spring:
   application:
     name: have-fun
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/rabbit_records?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&useSSL=false&zeroDateTimeBehavior=convertToNull&serverTimezone=GMT%2B8
+    username: root
+    password: 123456
   cloud:
     stream:
       rabbit:
@@ -22,10 +27,16 @@ spring:
           binder: my-rabbit-4
           destination: exchange-1
           exchangeType: direct
+          mymq: rabbit1
+          mytype: output1
+          mq-log-table: t_sent
         input-r-direct-q1:
           binder: my-rabbit-4
           destination: exchange-1
           group: direct-q1
+          mymq: rabbit
+          mytype: input
+          mq-log-table: t_sent
           consumer:
             max-attempts: 1
 

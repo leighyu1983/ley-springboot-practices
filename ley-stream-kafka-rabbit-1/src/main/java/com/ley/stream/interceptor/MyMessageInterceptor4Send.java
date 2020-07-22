@@ -81,20 +81,20 @@ public class MyMessageInterceptor4Send implements ChannelInterceptor {
 //		}
 	}
 
-	private void sendSuccessRabbitAck(Message<?> message) {
-		Channel rabbitChannel = (Channel) message.getHeaders().get(AmqpHeaders.CHANNEL);
-		Long deliveryTag = (Long) message.getHeaders().get(AmqpHeaders.DELIVERY_TAG);
-		try {
-			rabbitChannel.basicAck(deliveryTag, false);
-		} catch (Exception ex1) {
-			log.error(ex1.toString());
-		}
-	}
-
-	private void sendSuccessKafkaAck(Message<?> message) {
-		Acknowledgment acknowledgment = message.getHeaders().get(KafkaHeaders.ACKNOWLEDGMENT, Acknowledgment.class);
-		acknowledgment.acknowledge();
-	}
+//	private void sendSuccessRabbitAck(Message<?> message) {
+//		Channel rabbitChannel = (Channel) message.getHeaders().get(AmqpHeaders.CHANNEL);
+//		Long deliveryTag = (Long) message.getHeaders().get(AmqpHeaders.DELIVERY_TAG);
+//		try {
+//			rabbitChannel.basicAck(deliveryTag, false);
+//		} catch (Exception ex1) {
+//			log.error(ex1.toString());
+//		}
+//	}
+//
+//	private void sendSuccessKafkaAck(Message<?> message) {
+//		Acknowledgment acknowledgment = message.getHeaders().get(KafkaHeaders.ACKNOWLEDGMENT, Acknowledgment.class);
+//		acknowledgment.acknowledge();
+//	}
 
 
 	private String getPayload(Message<?> message) {
