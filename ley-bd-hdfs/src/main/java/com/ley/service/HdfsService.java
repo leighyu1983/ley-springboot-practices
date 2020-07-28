@@ -4,10 +4,8 @@ import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FileSystem;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-
-import java.io.IOException;
 import java.net.URI;
-import java.net.URISyntaxException;
+
 
 @Service
 public class HdfsService {

@@ -1,0 +1,8 @@
+hdfs:
+  # 用NameNode节点IP，你的端口可能是9000
+  # 只有hdfs的节点IP，你的端口可能是8020
+  path: hdfs://cdh101:8020/
+  # 不是当前测试用例
+  user: admin
+  # 不是当前测试用例
+  ip: cdh101

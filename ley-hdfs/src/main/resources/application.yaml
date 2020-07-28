@@ -1,3 +1,0 @@
-hdfs:
-  path: hdfs://localhost:8020
-  user: cloudera
