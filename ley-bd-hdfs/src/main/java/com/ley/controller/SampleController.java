@@ -1,7 +1,7 @@
 package com.ley.controller;
 
 import com.ley.service.HdfsService;
-import com.ley.service.WordCountServiceImpl;
+import com.ley.service.WordCountService;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.hadoop.fs.FSDataOutputStream;
 import org.apache.hadoop.fs.FileSystem;
@@ -16,7 +16,7 @@ public class SampleController {
     @Autowired
     HdfsService hdfsService;
     @Autowired
-    WordCountServiceImpl wordCountService;
+    WordCountService wordCountService;
 
     @GetMapping("/mkdir/{path}")
     public void mkdir(@PathVariable("path") String path) throws Exception {
@@ -47,7 +47,7 @@ public class SampleController {
     @GetMapping("/etl")
     public String etl(@RequestParam("jobName") String jobName, @RequestParam("inputPath") String inputPath) throws Exception {
         String str="";
-        System.setProperty("HADOOP_USER_NAME", "admin");
+        System.setProperty("HADOOP_USER_NAME", "root");
         if (StringUtils.isEmpty(jobName) || StringUtils.isEmpty(inputPath)) {
             return str="请输入作业名和文件路径";
         }

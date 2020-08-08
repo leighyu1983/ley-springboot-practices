@@ -3,7 +3,7 @@ server:
 
 spring:
   kafka:
-    bootstrap-servers: k1:9092,k2:9092,k3:9092
+    bootstrap-servers: localhost:9092 #k1:9092, k2:9092, k3:9092
     producer:
       # 重试次数
       retries: 3

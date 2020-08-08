@@ -22,8 +22,6 @@ public class KafkaConfiguration {
     @Autowired
     private MyKafkaProperty myKafkaProperty;
 
-
-    @Bean
     public Map<String, Object> producerConfigs() throws Exception {
         Map<String, Object> props = new HashMap<>();
         props.put(ProducerConfig.ACKS_CONFIG, "0");
@@ -41,7 +39,6 @@ public class KafkaConfiguration {
     /**
      *  生产者工厂
      */
-    @Bean
     public ProducerFactory<String, Object> producerFactory() throws Exception {
         return new DefaultKafkaProducerFactory<>(producerConfigs());
     }
@@ -49,15 +46,14 @@ public class KafkaConfiguration {
     /**
      *  生产者模板
      */
-    @Bean(name = "kafkaTemplate")
-    public KafkaTemplate<String, Object> kafkaTemplate() throws Exception {
-        return new KafkaTemplate<>(producerFactory());
-    }
+//    @Bean(name = "kafkaTemplate")
+//    public KafkaTemplate<String, Object> kafkaTemplate() throws Exception {
+//        return new KafkaTemplate<>(producerFactory());
+//    }
 
     /**
      *  消费者配置信息
      */
-    @Bean
     public Map<String, Object> consumerConfigs() throws Exception {
         Map<String, Object> props = new HashMap<>();
         props.put(ConsumerConfig.GROUP_ID_CONFIG, myKafkaProperty.getGroupId());
@@ -77,7 +73,6 @@ public class KafkaConfiguration {
     /**
      *  消费者批量工程
      */
-    @Bean
     public ConsumerFactory<String, Object> consumerFactory() throws Exception {
         return new DefaultKafkaConsumerFactory<>(consumerConfigs());
     }
@@ -94,6 +89,7 @@ public class KafkaConfiguration {
         factory.setConcurrency(myKafkaProperty.getConcurrency());
         //factory.setBatchListener(true);
         factory.getContainerProperties().setPollTimeout(myKafkaProperty.getPollTimeout());
+        factory.setConcurrency(3);
         return factory;
     }
 }

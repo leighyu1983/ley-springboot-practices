@@ -32,6 +32,7 @@ public class SampleController {
 				.setHeader("trace-id", UUID.randomUUID().toString())
 				.build();
 
+		log.debug("............current sender thread" + Thread.currentThread().getId());
 		LOGGER.debug("before sending out......");
 		myOutputBinding.outPutRDirectQ1().send(school);
 		return "ok";

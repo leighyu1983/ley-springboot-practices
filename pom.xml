@@ -12,6 +12,7 @@
         <module>ley-kafka-test</module>
         <module>ley-single</module>
         <module>ley-aop-config</module>
+        <module>ley-bd-hdfs</module>
         <module>ley-commons-pool2</module>
         <module>ley-agent</module>
         <module>ley-batis</module>
@@ -24,7 +25,14 @@
         <module>ley-stream-kafka</module>
         <module>ley-stream-rabbit</module>
         <module>ley-stream-kafka-rabbit-1</module>
-        <module>ley-hdfs</module>
+        <module>ley-es</module>
+        <module>ley-module-a</module>
+        <module>ley-module-b</module>
+        <module>ley-module-c</module>
+        <module>ley-java-mapreduce</module>
+        <module>ley-bd-hbase</module>
+        <module>ley-db-spark</module>
+        <module>ley-bd-spark</module>
     </modules>
 
 

@@ -18,6 +18,7 @@ public class SampleStreamListener {
 	@StreamListener(MyInputBinding.INPUT_R_DIRECT_Q1)
 	public void inputRDirectQ1(Message<School> message) {
 		log.debug("listener received....");
+		log.debug("............current listener thread" + Thread.currentThread().getId());
 		throw new RuntimeException("大西瓜");
 	}
 }

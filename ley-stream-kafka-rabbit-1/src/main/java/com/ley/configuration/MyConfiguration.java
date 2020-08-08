@@ -67,7 +67,7 @@ public class MyConfiguration implements EnvironmentAware {
 			throw new RuntimeException(msg);
 		}
 
-		if(RequestTypeEnum.valueOfName(property.get(MQ_TYPE_PROPERTY).toString()) == null) {
+		if(MqTypeEnum.valueOfName(property.get(MQ_TYPE_PROPERTY).toString()) == null) {
 			String msg = "Framework error: property " + MQ_TYPE_PROPERTY + " is not supported by framework for channel" + channel;
 			log.error(msg);
 			throw new RuntimeException(msg);

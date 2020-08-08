@@ -55,6 +55,8 @@ public class MyAop {
 	public Object listenerAround(ProceedingJoinPoint pjp) throws Throwable {
 		Object[] args = pjp.getArgs();
 
+		log.debug("............current listener aop thread" + Thread.currentThread().getId());
+
 		// TODO check args should only contains one Message type parameter.
 		Message message = getMessage(args);
 		ReceivedMessage receivedMessage = getReceivedMesage(message, pjp);
