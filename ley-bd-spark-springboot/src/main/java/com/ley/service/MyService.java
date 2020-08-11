@@ -1,4 +1,4 @@
-package com.ley.db.spark;
+package com.ley.service;
 
 import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaPairRDD;
@@ -7,35 +7,29 @@ import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.api.java.function.FlatMapFunction;
 import org.apache.spark.api.java.function.Function2;
 import org.apache.spark.api.java.function.PairFunction;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import scala.Tuple2;
 
+import java.io.Serializable;
 import java.text.MessageFormat;
 import java.util.Arrays;
 import java.util.Iterator;
 
-/**
- *
- */
-public class MyWordCount {
+@Service
+public class MyService implements Serializable {
+	@Autowired private transient JavaSparkContext sc;
 
 	private final static String SERVER = "192.168.175.101:9000";
 
-	static {
-		System.setProperty("HADOOP_USER_NAME", "root");
-	}
-
-	public static void main(String[] args) {
-		SparkConf conf = new SparkConf().setMaster("local").setAppName("ley-bd-spark");
-		JavaSparkContext sc = new JavaSparkContext(conf);
-
+	public void simpleCompute() {
 		String inputPath = MessageFormat.format("hdfs://{0}/test/input", SERVER);
 		String outputPath = MessageFormat.format("hdfs://{0}/test/output", SERVER);
 
-		nonLambda(sc, inputPath, outputPath);
-		// lambda(sc, inputPath, outputPath);
+		nonLambda(inputPath, outputPath);
 	}
 
-	private static void nonLambda(JavaSparkContext sc, String inputPath, String outputPath) {
+	private void nonLambda(String inputPath, String outputPath) {
 		// 创建一个叫lines的RDD
 		JavaRDD<String> lines = sc.textFile(inputPath);
 
@@ -78,13 +72,5 @@ public class MyWordCount {
 		System.out.println(countRDD.collect());
 		// 将统计出来的单词总数存入一个文本文件，引发求值
 		countRDD.saveAsTextFile(outputPath);
-	}
-
-	private static void lambda(JavaSparkContext sc, String inputPath, String outputPath) {
-		sc.textFile(inputPath)
-				.flatMap(s->Arrays.asList(s.split(" ")).iterator())
-				.mapToPair(s->new Tuple2<>(s,1))
-				.reduceByKey((x,y)->x+y)
-				.saveAsTextFile(outputPath);
 	}
 }
