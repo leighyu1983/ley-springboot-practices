@@ -1,11 +1,10 @@
 package com.ley.security;
 
+import com.ley.service.MyUserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.logout.HttpStatusReturningLogoutSuccessHandler;
@@ -14,7 +13,7 @@ import org.springframework.security.web.authentication.logout.HttpStatusReturnin
  * @author Leigh Yu
  * @date 2020/8/18 22:31
  */
-@EnableWebSecurity
+//@EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     MyUserService myUserService;
@@ -28,7 +27,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         // 禁用 csrf, 由于使用的是JWT，我们这里不需要csrf
+        // antMatcher() 是HttpSecurity的一个方法，表明这个adapter能处理哪个的url，它与authorizeRequests()没有任何关系。
         http.cors().and().csrf().disable()
+                .formLogin().loginPage("/my-login").and()
                 .authorizeRequests()
                 // 跨域预检请求
                 .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
@@ -38,6 +39,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/swagger**/**").permitAll()
                 .antMatchers("/webjars/**").permitAll()
                 .antMatchers("/v2/**").permitAll()
+                // permitAll()或hasRole()
                 // 其他所有请求需要身份认证
                 .anyRequest().authenticated();
         // 退出登录处理器

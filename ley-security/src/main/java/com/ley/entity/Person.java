@@ -25,6 +25,7 @@ public class Person implements UserDetails {
     private String id;
     private String username;
     private String password;
+    private String status;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

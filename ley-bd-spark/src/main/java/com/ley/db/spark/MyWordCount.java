@@ -10,6 +10,7 @@ import org.apache.spark.api.java.function.PairFunction;
 import scala.Tuple2;
 
 import java.text.MessageFormat;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 
@@ -24,7 +25,6 @@ public class MyWordCount {
 //		System.setProperty("HADOOP_USER_NAME", "root");
 //		System.setProperty("HADOOP_CONF_DIR", "/ley/programs/hadoop-3.3.0/");
 //	}
-
 
 	public static void main(String[] args) {
 		runOnCluster();
@@ -51,7 +51,8 @@ public class MyWordCount {
 
 		String inputPath = MessageFormat.format("hdfs://{0}/test/input/wordcount", SERVER);
 		String outputPath = MessageFormat.format("hdfs://{0}/test/output", SERVER);
-
+		StringBuilder sb;
+		StringBuffer sb1;
 		nonLambda(sc, inputPath, outputPath);
 		// lambda(sc, inputPath, outputPath);
 	}
