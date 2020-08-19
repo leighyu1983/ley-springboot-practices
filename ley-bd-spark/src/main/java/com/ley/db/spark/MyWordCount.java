@@ -18,17 +18,38 @@ import java.util.Iterator;
  */
 public class MyWordCount {
 
-	private final static String SERVER = "192.168.175.101:9000";
+	private final static String SERVER = "cdh101:9000";
 
-	static {
-		System.setProperty("HADOOP_USER_NAME", "root");
-	}
+//	static {
+//		System.setProperty("HADOOP_USER_NAME", "root");
+//		System.setProperty("HADOOP_CONF_DIR", "/ley/programs/hadoop-3.3.0/");
+//	}
+
 
 	public static void main(String[] args) {
-		SparkConf conf = new SparkConf().setMaster("local").setAppName("ley-bd-spark");
+		runOnCluster();
+		//runOnLocal();
+	}
+
+	private static  void runOnCluster() {
+		JavaSparkContext sc = new JavaSparkContext();
+
+		String inputPath = MessageFormat.format("hdfs://{0}/test/input/wordcount", SERVER);
+		String outputPath = MessageFormat.format("hdfs://{0}/test/output", SERVER);
+		sc.parallelize(null, 0);
+		nonLambda(sc, inputPath, outputPath);
+	}
+
+	private static void runOnLocal() {
+		System.setProperty("HADOOP_USER_NAME", "root");
+		System.setProperty("HADOOP_CONF_DIR", "/ley/programs/hadoop-3.3.0/");
+
+		SparkConf conf = new SparkConf().setMaster("local")
+				.setAppName("ley-bd-spark")
+		;
 		JavaSparkContext sc = new JavaSparkContext(conf);
 
-		String inputPath = MessageFormat.format("hdfs://{0}/test/input", SERVER);
+		String inputPath = MessageFormat.format("hdfs://{0}/test/input/wordcount", SERVER);
 		String outputPath = MessageFormat.format("hdfs://{0}/test/output", SERVER);
 
 		nonLambda(sc, inputPath, outputPath);

@@ -31,7 +31,7 @@
         <module>ley-module-c</module>
         <module>ley-java-mapreduce</module>
         <module>ley-bd-hbase</module>
-        <module>ley-db-spark</module>
+        <module>ley-bd-spark</module>
         <module>ley-bd-spark</module>
         <module>ley-bd-spark-springboot</module>
     </modules>

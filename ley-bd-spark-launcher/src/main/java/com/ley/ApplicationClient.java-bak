@@ -1,0 +1,60 @@
+package com.ley;
+
+import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.fs.FileSystem;
+import org.apache.hadoop.fs.Path;
+import org.apache.hadoop.security.UserGroupInformation;
+import org.apache.spark.launcher.SparkAppHandle;
+import org.apache.spark.launcher.SparkLauncher;
+
+import java.net.URI;
+import java.util.HashMap;
+
+public class ApplicationClient {
+	private final static String FILE_NAME = "ley-bd-spark.jar";
+	private final static String JAR_PATH = "D:\\CodeBase\\Projects\\ley-springboot-practices\\ley-bd-spark\\target\\" + FILE_NAME;
+
+	private static HashMap env = new HashMap();
+
+
+	static {
+		env.put("SPARK_HOME", "D:\\ProgramFiles\\spark-2.4.6-bin-hadoop2.7");
+	}
+
+	public static void mainBackup(String[] args) throws Exception {
+		SparkLauncher launcher = new SparkLauncher(env);
+		launcher.setAppResource(JAR_PATH);
+		launcher.setMainClass("com.ley.db.spark.MyWordCount");
+		// Master must either be yarn or start with spark, mesos, k8s, or local
+//		launcher.setMaster(RUN_MODE);
+		launcher.setMaster("spark://192.168.175.101:7077");
+		// --deploy-mode must be either "client" or "cluster"
+		// --deploy-mode "client" = applicationId is: local-1597373473482
+		launcher.setDeployMode("client");
+//		launcher.setVerbose(true);
+//		launcher.setConf(SparkLauncher.DRIVER_MEMORY, "1g");
+//		launcher.setConf(SparkLauncher.EXECUTOR_MEMORY, "1g");
+//		launcher.setConf(SparkLauncher.EXECUTOR_CORES, "2");
+
+		// 启动执行该application
+		SparkAppHandle handle = launcher.startApplication();
+		handle.addListener(new SparkAppHandle.Listener() {
+
+			@Override
+			public void stateChanged(SparkAppHandle handle) {
+				System.out.println("11111111111111111111" + handle.getState().name());
+			}
+
+			@Override
+			public void infoChanged(SparkAppHandle handle) {
+				System.out.println("22222222222222222222" + handle.getState().name());
+			}
+		});
+
+		while (handle.getState() != SparkAppHandle.State.FINISHED) {
+			Thread.sleep(6000L);
+			System.out.println("applicationId is: " + handle.getAppId());
+			System.out.println("current state: " + handle.getState());
+		}
+	}
+}

@@ -1,0 +1,102 @@
+package com.ley;
+
+import org.apache.hadoop.conf.Configuration;
+import org.apache.hadoop.fs.FileSystem;
+import org.apache.hadoop.fs.Path;
+import org.apache.spark.launcher.SparkAppHandle;
+import org.apache.spark.launcher.SparkLauncher;
+
+import java.net.URI;
+import java.util.HashMap;
+
+public class ApplicationUploadOk {
+	private final static String FILE_NAME = "ley-bd-spark.jar";
+	private final static String LOCAL_JAR_PATH = "D:\\CodeBase\\Projects\\ley-springboot-practices\\ley-bd-spark\\target\\" + FILE_NAME;
+	private final static String HDFS_PATH = "hdfs://cdh101:9000/test/input/";
+
+	private static HashMap env = new HashMap();
+
+
+	static {
+		System.setProperty("HADOOP_USER_NAME", "root");
+		env.put("SPARK_HOME", "D:\\ProgramFiles\\spark-2.4.6-bin-hadoop2.7");
+		env.put("SPARK_PRINT_LAUNCH_COMMAND", "1");
+		//env.put("SPARK_HOME", "/ley/programs/spark-2.4.6-bin-hadoop2.7/");
+	}
+
+	public static void upload() throws Exception {
+		Configuration conf = new Configuration();
+		FileSystem fs = null;
+		conf.set("hadoop.security.authentication", "kerberos");
+		// kerberos 认证的username，可配置在配置文件中
+		// Connection2hbase.getHbaseConfig().get("kerberos.username");
+		String userName = "root";
+		// kerberos 认证的keytab，配置在配置文件中，存放于具体目录
+		// Connection2hbase.getHbaseConfig().get("kerberos.keytab");
+		// String keytab = "/usr/lib/hochoy.keytab";
+		URI urlHdfs = new URI("hdfs://cdh101:9000");
+
+		//UserGroupInformation.setConfiguration(conf);
+		//UserGroupInformation.loginUserFromKeytab(userName, keytab);   //kerberos 认证
+		//fs = FileSystem.get(urlHdfs,conf);
+		fs = FileSystem.get(urlHdfs, new Configuration());
+//		if (fs.exists(new Path(url17monipdb + "/17monipdb.dat"))){
+//			//rename 及linux中的cp ，文件拷贝
+//			fs.rename(new Path(url17monipdb + "/17monipdb.dat"),new Path(url17monipdb + "/17monipdb.dat"+".bak"+new SimpleDateFormat("yyyyMMdd-HHmmss").format(new Date())));
+//		}
+
+		//调用API上传文件
+		fs.copyFromLocalFile(
+				false,
+				false,
+				new Path(LOCAL_JAR_PATH),
+				new Path(HDFS_PATH + FILE_NAME)
+		);
+		fs.close();
+	}
+
+	public static void runOnSpark() throws Exception {
+		SparkLauncher launcher = new SparkLauncher(env); // env for local
+		launcher.setAppResource(HDFS_PATH + FILE_NAME);
+		launcher.setConf(SparkLauncher.DRIVER_MEMORY, "1g");
+		launcher.setConf(SparkLauncher.EXECUTOR_MEMORY, "1g");
+		launcher.setConf(SparkLauncher.EXECUTOR_CORES, "1");
+		launcher.setMainClass("com.ley.db.spark.MyWordCount");
+		// Master must either be yarn or start with spark, mesos, k8s, or local
+//		launcher.setMaster(RUN_MODE);
+		launcher.setMaster("spark://cdh101:7077");
+		// --deploy-mode must be either "client" or "cluster"
+		// --deploy-mode "client" = applicationId is: local-1597373473482
+		launcher.setDeployMode("cluster");
+//		launcher.setVerbose(true);
+//		launcher.setConf(SparkLauncher.DRIVER_MEMORY, "1g");
+//		launcher.setConf(SparkLauncher.EXECUTOR_MEMORY, "1g");
+//		launcher.setConf(SparkLauncher.EXECUTOR_CORES, "2");
+
+		// 启动执行该application
+		SparkAppHandle handle = launcher.startApplication();
+		handle.addListener(new SparkAppHandle.Listener() {
+
+			@Override
+			public void stateChanged(SparkAppHandle handle) {
+				System.out.println("11111111111111111111" + handle.getState().name());
+			}
+
+			@Override
+			public void infoChanged(SparkAppHandle handle) {
+				System.out.println("22222222222222222222" + handle.getState().name());
+			}
+		});
+
+		while (handle.getState() != SparkAppHandle.State.FINISHED) {
+			Thread.sleep(6000L);
+			System.out.println("applicationId is: " + handle.getAppId());
+			System.out.println("current state: " + handle.getState());
+		}
+	}
+
+	public static void mainBackup(String[] args) throws Exception {
+		upload();
+		runOnSpark();
+	}
+}

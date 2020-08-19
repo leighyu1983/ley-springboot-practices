@@ -13,7 +13,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  /ley/testdata/ley-bd-spark-springboot-2.3.2.RELEASE.jar
 
 
- ./spark-submit --class com.ley.Application --master spark://cdh101:7077 \
+ ./spark-submit --class com.ley.Application --master local[2] \
  /ley/testdata/ley-bd-spark-springboot-2.3.2.RELEASE.jar
 
  */
