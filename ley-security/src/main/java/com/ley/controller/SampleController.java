@@ -14,8 +14,13 @@ public class SampleController {
     @Autowired private HttpServletRequest request;
 
     @GetMapping("/person/{id}")
-    public String get(@RequestParam("id") String id) {
+    public String get(@PathVariable("id") String id) {
         return id;
+    }
+
+    @GetMapping("/person/nopermission/see")
+    public String see() {
+        return "should not have permission";
     }
 
     @GetMapping("/person/all")

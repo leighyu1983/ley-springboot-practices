@@ -1,5 +1,6 @@
 package com.ley.entity;
 
+import com.ley.data.SampleData;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,6 +13,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author Leigh Yu
@@ -26,16 +28,22 @@ public class Person implements UserDetails {
     private String username;
     private String password;
     private String status;
+    private List<Role> roles;
+
+//    @Override
+//    public Collection<? extends GrantedAuthority> getAuthorities() {
+//        List<GrantedAuthority> auths = new ArrayList<>();
+//        //List<SysRole> roles = this.getRoles();
+//        List<String> roles = Arrays.asList("admin", "normal");
+//        for (String role : roles) {
+//            auths.add(new SimpleGrantedAuthority(role));
+//        }
+//        return auths;
+//    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        List<GrantedAuthority> auths = new ArrayList<>();
-        //List<SysRole> roles = this.getRoles();
-        List<String> roles = Arrays.asList("admin", "normal");
-        for (String role : roles) {
-            auths.add(new SimpleGrantedAuthority(role));
-        }
-        return auths;
+        return this.roles.stream().map(x -> new SimpleGrantedAuthority(x.getName())).collect(Collectors.toList());
     }
 
     @Override

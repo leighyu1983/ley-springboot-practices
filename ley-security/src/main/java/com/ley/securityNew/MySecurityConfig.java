@@ -1,13 +1,16 @@
 package com.ley.securityNew;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.ObjectPostProcessor;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.web.access.intercept.FilterSecurityInterceptor;
 
-@EnableWebSecurity
+@Configuration
+//@EnableWebSecurity
 public class MySecurityConfig extends WebSecurityConfigurerAdapter {
 	@Autowired
 	private UserAuthenticationProvider userAuthenticationProvider;
@@ -17,6 +20,13 @@ public class MySecurityConfig extends WebSecurityConfigurerAdapter {
 	private LoginFailHandler loginFailHandler;
 	@Autowired
 	private LoginSuccessHandler loginSuccessHandler;
+	@Autowired
+	private MyAccessDeniedHandler myAccessDeniedHandler;
+	@Autowired
+	private UrlFilterSecurityMetaSource urlFilterSecurityMetaSource;
+	@Autowired
+	private MyAccessDecisionManager myAccessDecisionManager;
+
 
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth){
@@ -31,6 +41,14 @@ public class MySecurityConfig extends WebSecurityConfigurerAdapter {
 				.antMatchers("/my-index").permitAll()
 				//其他的需要登陆后才能访问
 				.anyRequest().authenticated()
+				.withObjectPostProcessor(new ObjectPostProcessor<FilterSecurityInterceptor>() {
+					@Override
+					public <O extends FilterSecurityInterceptor> O postProcess(O object) {
+						object.setSecurityMetadataSource(urlFilterSecurityMetaSource);
+						object.setAccessDecisionManager(myAccessDecisionManager);
+						return object;
+					}
+				})
 				.and()
 				//配置未登录自定义处理类
 				.httpBasic().authenticationEntryPoint(notLoginHandler)
@@ -48,9 +66,9 @@ public class MySecurityConfig extends WebSecurityConfigurerAdapter {
 				.logoutUrl("/login/userLogout")
 				//配置用户登出自定义处理类
 //				.logoutSuccessHandler(userLogoutSuccessHandler)
-//				.and()
-//				//配置没有权限自定义处理类
-//				.exceptionHandling().accessDeniedHandler(userAuthAccessDeniedHandler)
+				.and()
+				//配置没有权限自定义处理类
+				.exceptionHandling().accessDeniedHandler(myAccessDeniedHandler)
 				.and()
 				// 开启跨域
 				.cors()
@@ -61,7 +79,7 @@ public class MySecurityConfig extends WebSecurityConfigurerAdapter {
 		http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 		// 禁用缓存
 		http.headers().cacheControl();
-		// 添加JWT过滤器
+		// 添加JWT过滤器, 继承自BasicAuthenticationFilter extends OncePerRequestFilter
 		http.addFilter(new JWTAuthenticationTokenFilter(authenticationManager()));
 	}
 }

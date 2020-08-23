@@ -2,12 +2,10 @@ package com.ley.service;
 
 import com.ley.data.SampleData;
 import com.ley.entity.Person;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import javax.swing.text.html.Option;
 import java.util.Optional;
 
 /**
