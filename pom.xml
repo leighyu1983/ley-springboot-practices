@@ -35,6 +35,7 @@
         <module>ley-bd-spark</module>
         <module>ley-bd-spark-springboot</module>
         <module>ley-security</module>
+        <module>ley-hive</module>
     </modules>
 
 
