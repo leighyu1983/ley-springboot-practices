@@ -1,5 +1,6 @@
 package com.ley.db.spark;
 
+import com.ley.db.spark.service.MySparkService;
 import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaPairRDD;
 import org.apache.spark.api.java.JavaRDD;
@@ -27,7 +28,9 @@ public class MyWordCount {
 //	}
 
 	public static void main(String[] args) {
-		runOnCluster();
+		//new MySparkService().sparkSqlBySparkSubmitWithPartition_NOT_WORKING();
+		new MySparkService().sparkSqlBySparkSubmitNoPartition();
+		//runOnCluster();
 		//runOnLocal();
 	}
 

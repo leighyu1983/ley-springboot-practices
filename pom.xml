@@ -35,6 +35,9 @@
         <module>ley-bd-spark</module>
         <module>ley-bd-spark-springboot</module>
         <module>ley-security</module>
+        <module>ley-bd-hive-autoconfig-starter</module>
+        <module>ley-bd-spark-spring</module>
+        <module>ley-bd-hive</module>
     </modules>
 
 

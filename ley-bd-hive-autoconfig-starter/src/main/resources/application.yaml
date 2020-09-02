@@ -1,0 +1,11 @@
+hc:
+  hive:
+    minimum-idle: 0
+    maximum-pool-size: 2
+    max-lifetime: 600000
+    connection-timeout: 60000
+    username: root
+    password: 123456
+    jdbc-url: jdbc:hive2://hadoop03:10001/default;transportMode=http;httpPath=cliservice
+    driver-class-name: org.apache.hive.jdbc.HiveDriver
+    testOnBorrow: false
