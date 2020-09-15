@@ -39,7 +39,7 @@ public class ScenarioController {
 	@Autowired private MyStringSample myStringSample;
 	@GetMapping("/string/two")
 	public String stringTwo() {
-		myStringSample.testTwo();
+		//myStringSample.testTwo();
 		return "done....";
 	}
 }

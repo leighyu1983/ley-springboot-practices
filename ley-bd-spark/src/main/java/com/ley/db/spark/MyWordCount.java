@@ -1,5 +1,6 @@
 package com.ley.db.spark;
 
+import com.ley.ResourceLoader;
 import com.ley.db.spark.service.MySparkService;
 import org.apache.spark.SparkConf;
 import org.apache.spark.api.java.JavaPairRDD;
@@ -8,12 +9,17 @@ import org.apache.spark.api.java.JavaSparkContext;
 import org.apache.spark.api.java.function.FlatMapFunction;
 import org.apache.spark.api.java.function.Function2;
 import org.apache.spark.api.java.function.PairFunction;
+import org.apache.spark.sql.AnalysisException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import scala.Tuple2;
 
+import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
+import java.util.Properties;
 
 /**
  *
@@ -21,15 +27,29 @@ import java.util.Iterator;
 public class MyWordCount {
 
 	private final static String SERVER = "cdh101:9000";
-
+	private static final Logger LOGGER = LoggerFactory.getLogger(MyWordCount.class);
 //	static {
 //		System.setProperty("HADOOP_USER_NAME", "root");
 //		System.setProperty("HADOOP_CONF_DIR", "/ley/programs/hadoop-3.3.0/");
 //	}
 
-	public static void main(String[] args) {
-		//new MySparkService().sparkSqlBySparkSubmitWithPartition_NOT_WORKING();
-		new MySparkService().sparkSqlBySparkSubmitNoPartition();
+	public static void main(String[] args) throws AnalysisException, IOException {
+
+		Properties properties = ResourceLoader.load();
+		LOGGER.info("read from properties file, value is: " + properties.getProperty("name"));
+
+		//new MySparkService().sparkSqlBySparkSubmitHiveWithPartition();
+		//new MySparkService().sparkSqlBySparkSubmitHiveNoPartition();
+		new MySparkService().sparkSqlQueryFromJson();
+		//new MySparkService().sparkFile2Rdd();
+
+		//new MySparkService().sparkFromIdeaRemoteCallHive();
+		//new MySparkService().sparkFromIdeaRemoteCallHiveForSearch();
+		//new MySparkService().sparkMysqlRWLocalMysqlConnectorJson();
+
+		//new MySparkService().sparkMysqlRWLocalMysqlConnectorText();
+
+
 		//runOnCluster();
 		//runOnLocal();
 	}

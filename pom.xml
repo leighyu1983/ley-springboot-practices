@@ -38,6 +38,10 @@
         <module>ley-bd-hive-autoconfig-starter</module>
         <module>ley-bd-spark-spring</module>
         <module>ley-bd-hive</module>
+        <module>ley-bd-spark-utils</module>
+        <module>ley-single-main</module>
+        <module>ley-spi-lib</module>
+        <module>ley-spi-run</module>
     </modules>
 
 

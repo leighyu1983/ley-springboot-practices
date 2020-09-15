@@ -1,7 +1,6 @@
 package com.ley.scenario.mystring;
 
-import com.ley.scenario.configprocessor.MyStringConfig;
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.stereotype.Component;
 
 @Component
@@ -15,8 +14,8 @@ public class MyStringSample {
 		System.out.println(str == str1);
 	}
 
-	@Autowired private MyStringConfig myStringConfig;
-	public void testTwo() {
-		System.out.println(myStringConfig.getName());
-	}
+//	@Autowired private MyStringConfig myStringConfig;
+//	public void testTwo() {
+//		System.out.println(myStringConfig.getName());
+//	}
 }

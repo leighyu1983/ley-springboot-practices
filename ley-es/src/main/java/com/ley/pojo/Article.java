@@ -1,6 +1,7 @@
 package com.ley.pojo;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
 import java.util.Date;
