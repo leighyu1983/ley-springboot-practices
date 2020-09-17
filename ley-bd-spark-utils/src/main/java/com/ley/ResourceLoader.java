@@ -1,6 +1,7 @@
 package com.ley;
 
 import java.io.*;
+import java.net.URLClassLoader;
 import java.util.Properties;
 
 public class ResourceLoader {
@@ -17,6 +18,13 @@ public class ResourceLoader {
 		return load(DEFAULT_RESOURCE_FILE);
 	}
 
+	/**
+	 * Load resource from classpath
+	 *
+	 * @param filename
+	 * @return
+	 * @throws IOException
+	 */
 	public static Properties load(String filename) throws IOException {
 		InputStream in = null;
 		Properties properties = null;
