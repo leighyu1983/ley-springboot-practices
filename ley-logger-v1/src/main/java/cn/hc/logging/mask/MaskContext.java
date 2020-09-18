@@ -1,7 +1,6 @@
 package cn.hc.logging.mask;
 
 import cn.hc.logging.MaskTypeEnum;
-import cn.hc.logging.exception.NotSupportedException;
 import cn.hc.logging.mask.impl.*;
 
 
@@ -11,18 +10,13 @@ import cn.hc.logging.mask.impl.*;
  */
 public class MaskContext {
 
-	private IMaskStrategy strategy;
+	private MaskStrategy strategy;
 
 	// cannot initialize without param.
 	private MaskContext() {
 
 	}
 
-	/**
-	 * Throw {@link cn.hc.logging.exception.NotSupportedException} if mask type is not implemented in mask context constructor.
-	 *
-	 * @param type
-	 */
 	public MaskContext(MaskTypeEnum type) {
 		switch (type) {
 			case BANK_CARD:
@@ -41,8 +35,7 @@ public class MaskContext {
 				strategy = new PhoneMaskStrategy();
 				break;
 			default:
-				throw new NotSupportedException(
-						"cn.hc.logging.mask.MaskContext: mask type enum is not supported:" + type.toString());
+				throw new IllegalArgumentException(String.format("MaskTypeEnum: %s is not supported.", type.toString()));
 		}
 	}
 

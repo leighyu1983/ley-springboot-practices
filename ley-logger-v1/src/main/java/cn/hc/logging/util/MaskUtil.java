@@ -1,20 +1,7 @@
 package cn.hc.logging.util;
 
-import cn.hc.logging.exception.EndLargerThanStartOffsetException;
 
 public class MaskUtil {
-
-	/**
-	 * Params validation is done in mask method.
-	 *
-	 * @param value
-	 * @return
-	 */
-	public static String mask4To8Digits(String value) {
-		int startOffset = 4;
-		int endOffset = 8;
-		return mask(value, startOffset, endOffset);
-	}
 
 	public static String mask(String value, int start, int end) {
 		return mask(value, start, end, '*');
@@ -29,13 +16,14 @@ public class MaskUtil {
 	 * @return
 	 */
 	public static String mask(String value, int start, int end, char c) {
+		if(end > start) {
+			throw new IllegalArgumentException(
+					String.format("end offset: %d, is larger than start offset: %d", end, start));
+		}
+
 		// no enough chars to mask.
 		if(value == null || value.length() < end) {
 			return value;
-		}
-
-		if(end > start) {
-			throw new EndLargerThanStartOffsetException("end offset: " + end + ", is larger than start offset:" + start);
 		}
 
 		int len = value.length();
