@@ -1,7 +1,7 @@
-package cn.hc.logging.mask;
+package hc.logging.mask;
 
-import cn.hc.logging.MaskTypeEnum;
-import cn.hc.logging.mask.impl.*;
+import hc.logging.MaskTypeEnum;
+import hc.logging.mask.impl.*;
 
 
 /**

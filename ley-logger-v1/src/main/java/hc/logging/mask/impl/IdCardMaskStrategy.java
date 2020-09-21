@@ -1,8 +1,8 @@
-package cn.hc.logging.mask.impl;
+package hc.logging.mask.impl;
 
-import cn.hc.logging.mask.MaskStrategy;
-import cn.hc.logging.mask.MaskStrategyBase;
-import cn.hc.logging.mask.constant.Constant;
+import hc.logging.mask.MaskStrategy;
+import hc.logging.mask.MaskStrategyBase;
+import hc.logging.mask.constant.Constant;
 
 public class IdCardMaskStrategy extends MaskStrategyBase implements MaskStrategy {
 

@@ -1,13 +1,13 @@
-package cn.hc.logging.mask.impl;
+package hc.logging.mask.impl;
 
-import cn.hc.logging.mask.MaskStrategy;
-import cn.hc.logging.mask.MaskStrategyBase;
-import cn.hc.logging.mask.constant.Constant;
+import hc.logging.mask.MaskStrategy;
+import hc.logging.mask.MaskStrategyBase;
+import hc.logging.mask.constant.Constant;
 
 public class PhoneMaskStrategy extends MaskStrategyBase implements MaskStrategy {
 
 	/**
-	 * Refer to rule described in {@link cn.hc.logging.mask.MaskStrategy}
+	 * Refer to rule described in {@link MaskStrategy}
 	 *
 	 * @param value
 	 * @return

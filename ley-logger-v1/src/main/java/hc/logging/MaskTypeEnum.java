@@ -1,4 +1,4 @@
-package cn.hc.logging;
+package hc.logging;
 
 public enum MaskTypeEnum {
 
