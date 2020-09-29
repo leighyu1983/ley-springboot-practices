@@ -43,6 +43,7 @@
         <module>ley-spi-lib</module>
         <module>ley-spi-run</module>
         <module>ley-logger-v1</module>
+        <module>ley-logger-v2</module>
     </modules>
 
 

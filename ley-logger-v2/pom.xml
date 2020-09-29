@@ -6,7 +6,7 @@
     <groupId>cn.hc</groupId>
     <version>1.0</version>
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>ley-logger-v1</artifactId>
+    <artifactId>ley-logger-v2</artifactId>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -57,9 +57,11 @@
                 <version>3.6.1</version>
                 <configuration>
                     <source>${java.version}</source>
-                    <target>${java.version}s</target>
+                    <target>${java.version}</target>
                 </configuration>
             </plugin>
         </plugins>
     </build>
+
+
 </project>

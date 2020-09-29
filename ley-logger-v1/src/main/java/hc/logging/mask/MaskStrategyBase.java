@@ -55,6 +55,6 @@ public abstract class MaskStrategyBase {
          * start=5, end=8, value=011012
          * result: 011012 -> ****12
          */
-        return MaskUtil.mask(value, value.length() - 1 - (end - start), value.length() - 1, c);
+        return MaskUtil.mask(value, 0, end - start + 1, c);
     }
 }
