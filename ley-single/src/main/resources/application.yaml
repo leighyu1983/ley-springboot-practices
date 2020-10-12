@@ -1,9 +1,0 @@
-server:
-  port: 8082
-user1:
-  name: ley
-http:
-  max-total: 4
-  max-per-route: 2
-  connection-timeout-ms: 5000
-  read-timeout-ms: 5000
