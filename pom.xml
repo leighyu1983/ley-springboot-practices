@@ -9,18 +9,7 @@
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
     <modules>
-        <module>ley-kafka-test</module>
-        <module>ley-single</module>
-        <module>ley-aop-config</module>
         <module>ley-bd-hdfs</module>
-        <module>ley-commons-pool2</module>
-        <module>ley-agent</module>
-        <module>ley-batis</module>
-        <module>ley-inject-bean</module>
-        <module>ley-dynamic-property</module>
-        <module>ley-property-source</module>
-        <module>ley-bean-sequence</module>
-        <module>ley-customized-scheduler</module>
         <module>ley-stream-kafka-rabbit</module>
         <module>ley-stream-kafka</module>
         <module>ley-stream-rabbit</module>
@@ -34,16 +23,13 @@
         <module>ley-bd-spark</module>
         <module>ley-bd-spark</module>
         <module>ley-bd-spark-springboot</module>
-        <module>ley-security</module>
         <module>ley-bd-hive-autoconfig-starter</module>
         <module>ley-bd-spark-spring</module>
         <module>ley-bd-hive</module>
         <module>ley-bd-spark-utils</module>
-        <module>ley-single-main</module>
-        <module>ley-spi-lib</module>
-        <module>ley-spi-run</module>
         <module>ley-logger-v1</module>
         <module>ley-logger-v2</module>
+        <module>ley-bd-spark-simple</module>
     </modules>
 
 
